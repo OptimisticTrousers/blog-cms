@@ -31,6 +31,9 @@ import Autocomplete from "@mui/joy/Autocomplete";
 import { Loader, MultiSelect } from "@mantine/core";
 import { DatePicker } from "@mantine/dates";
 import { TextField } from "@mui/joy";
+import { apiDomain } from "../../utils";
+import { FetchPost } from "../../atoms";
+import Error from "../../components/Error/Error";
 
 const data = [
   { value: "react", label: "React" },
@@ -47,8 +50,8 @@ const PostAdmin = () => {
 
   const { postId } = useParams();
 
-  const { loading, error, value } = useFetch(
-    `http://localhost:5000/posts/${postId}`
+  const { loading, error, value }: FetchPost = useFetch(
+    `${apiDomain()}/${postId}`
   );
 
   if (loading) {
@@ -56,12 +59,12 @@ const PostAdmin = () => {
   }
 
   if (error) {
-    return <h1>Error: {error}</h1>;
+    return <Error error={error}/>;
   }
 
-  const { title, published, contentHtml, updatedAt, createdAt } = value.posts;
+  const { title, published, contentHtml, updatedAt, createdAt } = value!.posts;
 
-  const renderedComments = value?.comments.map((comment) => {
+  const renderedComments = value!.comments.map((comment) => {
     return (
       <Box
         padding={"1rem"}
@@ -144,7 +147,7 @@ const PostAdmin = () => {
             </Text>
             <Editor
               onInit={(evt, editor) => (editorRef.current = editor)}
-              apiKey={process.env.TINY_API_KEY}
+              apiKey={import.meta.env.TINY_API_KEY}
               initialValue="<p>This is the initial content of the editor.</p>"
               init={{
                 height: 500,

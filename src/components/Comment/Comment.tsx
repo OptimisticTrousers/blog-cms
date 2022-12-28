@@ -1,13 +1,13 @@
 /* eslint-disable react/no-unknown-property */
-import { FC } from "react";
 import CSSModules from "react-css-modules";
 import styles from "./Comment.module.css";
 import parse from "html-react-parser";
 import Date from "../Date/Date";
 import moment from "moment";
 import avatar from "../../assets/images/optimistictrousers.jpg";
+import { Comment as CommentInterface } from "../../atoms";
 
-const Comment = ({ name, contentHtml, createdAt }: any) => {
+const Comment = ({ name, contentHtml, createdAt }: CommentInterface) => {
   return (
     <article styleName="comment">
       <div styleName="comment__image-container">
@@ -28,9 +28,8 @@ const Comment = ({ name, contentHtml, createdAt }: any) => {
             # <Date dateString={createdAt} />
           </p>
           <div styleName="comment__block">
-
-          around
-          <p styleName="comment__fromnow">{moment(createdAt).fromNow()}</p>
+            around
+            <p styleName="comment__fromnow">{moment(createdAt).fromNow()}</p>
           </div>
         </div>
         <section styleName="comment__content">{parse(contentHtml)}</section>

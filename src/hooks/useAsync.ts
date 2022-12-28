@@ -1,6 +1,10 @@
 import { useCallback, useEffect, useState } from "react";
 
-const useAsync = (callback: any, dependencies = []) => {
+interface Callback {
+  (): Promise<any>;
+}
+
+const useAsync = (callback: Callback, dependencies = []) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState();
   const [value, setValue] = useState();

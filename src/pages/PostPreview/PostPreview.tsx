@@ -7,23 +7,24 @@ import Date from "../../components/Date/Date";
 import CSSModules from "react-css-modules";
 import styles from "./PostPreview.module.css";
 import { Loader } from "@mantine/core";
+import { apiDomain } from "../../utils";
+import { FetchPost } from "../../atoms";
+import Error from "../../components/Error/Error";
 
 const PostPreview = () => {
   const { postId } = useParams();
 
-  const { loading, error, value }: any = useFetch(
-    `http://localhost:5000/posts/${postId}`
-  );
+  const { loading, error, value }: FetchPost = useFetch(`${apiDomain()}/${postId}`);
 
   if (loading) {
     return <Loader size={"xl"} />;
   }
 
   if (error) {
-    return <h1>Error: {error}</h1>;
+    return <Error error={error}/>;
   }
 
-  const { title, createdAt, updatedAt, contentHtml } = value.posts;
+  const { title, createdAt, updatedAt, contentHtml } = value!.posts;
 
   return (
     <article styleName="preview">

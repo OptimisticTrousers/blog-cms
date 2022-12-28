@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import CSSModules from "react-css-modules";
 import styles from "./PostCard.module.css";
 import { BsCalendar3 } from "react-icons/bs";
