@@ -1,0 +1,26 @@
+.preview__date {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  font-size: 1.2rem;
+}
+
+.preview__title {
+  margin-bottom: 0.5rem;
+  line-height: initial;
+  overflow: hidden;
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin: 2em 0 0.5em;
+  transition: all 0.2s ease-in-out;
+}
+
+.preview__description {
+  font-size: 1.5rem;
+  margin-bottom: 1.3em;
+  line-height: 1.5;
+}
+
+.preview__bold {
+    font-weight: 600;
+}
