@@ -1,0 +1,85 @@
+@font-face {
+  font-family: "Gordon Condensed";
+  src: local("./assets/fonts/URW\ Gordon\ W01\ Condensed.woff2");
+}
+
+.card {
+  border-radius: 8px;
+  border: 1px solid gray;
+  box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.7);
+  position: relative;
+  background-color: white;
+  font-family: "Helvetica";
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.card__image {
+  width: 100%;
+  object-fit: contain;
+  border-bottom: 2px solid #9ca9ad;
+}
+
+.card__content {
+  padding: 1rem;
+}
+
+.card__title {
+  margin-bottom: 15px;
+  font-size: 2rem;
+}
+
+.card__snippet {
+  color: #586871;
+  margin-bottom: 15px;
+  font-size: 1.25rem;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  max-height: 150px;
+  -webkit-box-orient: vertical;
+  font-family: "Inter";
+}
+
+.card__status {
+  position: absolute;
+  top: 25px;
+  left: 20px;
+  padding: 0.5rem 1.5rem;
+  color: white;
+  border-radius: 50px;
+  font-size: 2rem;
+}
+
+.card__status--published {
+  background-color: #fe6900;
+}
+
+.card__status--unpublished {
+  background-color: #cad8dc;
+}
+
+.card__date {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 15px;
+  font-size: 1.25rem;
+}
+
+.card__link {
+    width: 90%;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    margin-bottom: 1rem;
+    margin-top: auto;
+}
+
+.card__button {
+    width: 100%;
+}
+
+.card__bold {
+  font-weight: 600;
+}
