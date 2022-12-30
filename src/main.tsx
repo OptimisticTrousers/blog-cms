@@ -7,6 +7,7 @@ import Posts from "./pages/Posts/Posts";
 import PostAdmin from "./pages/PostAdmin/PostAdmin";
 import PostPreview from "./pages/PostPreview/PostPreview";
 import "bootstrap/dist/css/bootstrap.min.css";
+import EnhancedPostAdmin from "./components/EnhancedPostAdmin/EnhancedPostAdmin";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
@@ -17,7 +18,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
           <Route path="posts">
             <Route path="create" element={<PostAdmin />} />
             <Route path=":postId">
-              <Route index element={<PostAdmin />} />
+              <Route index element={<EnhancedPostAdmin />} />
               <Route path="preview" element={<PostPreview />} />
             </Route>
           </Route>

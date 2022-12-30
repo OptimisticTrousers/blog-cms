@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { FC, useRef, useContext, useEffect } from "react";
 import {
   Box,
   Button,
@@ -32,8 +32,9 @@ import { Loader, MultiSelect } from "@mantine/core";
 import { DatePicker } from "@mantine/dates";
 import { TextField } from "@mui/joy";
 import { apiDomain } from "../../utils";
-import { FetchPost } from "../../atoms";
+import { FetchPost, Post, UserPost } from "../../atoms";
 import Error from "../../components/Error/Error";
+import axios from "axios";
 
 const data = [
   { value: "react", label: "React" },
@@ -45,62 +46,68 @@ const data = [
   { value: "blitz", label: "Blitz.js" },
 ];
 
-const PostAdmin = () => {
+interface Props {
+  post?: Post;
+  renderedComments?: JSX.Element[];
+  deleteButton?: HTMLButtonElement;
+  previewButton?: HTMLButtonElement;
+  handleEditPost?: any;
+}
+
+const PostAdmin: FC<Props> = ({
+  post,
+  renderedComments,
+  deleteButton,
+  previewButton,
+  handleEditPost,
+}) => {
   const editorRef = useRef<TinyMCEEditor | null>(null);
+  const titleRef = useRef(null);
+  const updatedAtRef = useRef(null);
+  const createdAtRef = useRef(null);
 
-  const { postId } = useParams();
+  // Form information
 
-  const { loading, error, value }: FetchPost = useFetch(
-    `${apiDomain()}/${postId}`
-  );
+  const handleCreatePost = async (values: UserPost) => {
+    try {
+      const { data } = await axios.post(`${apiDomain()}/posts`, values);
+      console.log(data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
-  if (loading) {
-    return <Loader size={"xl"} />;
-  }
+  const handleSubmit = (published: boolean) => {
+    const title = titleRef.current.children[0].children[0].value;
+    const contentHtml = editorRef.current.getContent();
+    const createdAt = createdAtRef.current.value;
+    const updatedAt = updatedAtRef.current.value;
+    const post = {
+      title,
+      published,
+      contentHtml,
+      createdAt,
+      updatedAt,
+    };
 
-  if (error) {
-    return <Error error={error}/>;
-  }
-
-  const { title, published, contentHtml, updatedAt, createdAt } = value!.posts;
-
-  const renderedComments = value!.comments.map((comment) => {
-    return (
-      <Box
-        padding={"1rem"}
-        marginBottom={"2rem"}
-        borderBottom={"1px solid black"}
-      >
-        <Comment key={comment._id} {...comment} />
-        <Button
-          colorScheme="cyan"
-          width="100%"
-          borderRadius={8}
-          leftIcon={<EditIcon />}
-          marginTop={"1rem"}
-        >
-          Edit Comment
-        </Button>
-        <Button
-          colorScheme={"red"}
-          leftIcon={<DeleteIcon />}
-          width="100%"
-          borderRadius={8}
-          marginTop={"1rem"}
-        >
-          Delete
-        </Button>
-      </Box>
-    );
-  });
+    if (handleEditPost) {
+      handleEditPost(post);
+    } else {
+      handleCreatePost(post);
+    }
+  };
 
   return (
     <Box>
       <Stack direction="row" marginBottom={40}>
-        <TextField size="lg" placeholder="Post Title" sx={{ width: "100%" }} />
-        <Link to={`/posts/${postId}/preview`} target="_blank">
-          <Button leftIcon={<ViewIcon />}>Preview</Button>
-        </Link>
+        <TextField
+          size="lg"
+          placeholder="Post Title"
+          sx={{ width: "100%" }}
+          ref={titleRef}
+          defaultValue={post?.title}
+        />
+        {previewButton}
         <Menu>
           <MenuButton
             as={Button}
@@ -112,8 +119,12 @@ const PostAdmin = () => {
             Save
           </MenuButton>
           <MenuList>
-            <MenuItem>Save as published</MenuItem>
-            <MenuItem>Save as unpublished</MenuItem>
+            <MenuItem onClick={() => handleSubmit(true)}>
+              Save as published
+            </MenuItem>
+            <MenuItem onClick={() => handleSubmit(false)}>
+              Save as unpublished
+            </MenuItem>
           </MenuList>
         </Menu>
       </Stack>
@@ -148,7 +159,7 @@ const PostAdmin = () => {
             <Editor
               onInit={(evt, editor) => (editorRef.current = editor)}
               apiKey={import.meta.env.TINY_API_KEY}
-              initialValue="<p>This is the initial content of the editor.</p>"
+              initialValue={post?.contentHtml ?? "<p>Bob Jones is great!</p>"}
               init={{
                 height: 500,
                 menubar: false,
@@ -178,32 +189,52 @@ const PostAdmin = () => {
               Image
             </Text>
           </Box> */}
-          <Box
-            bg="#f7fafc"
-            paddingX={"1rem"}
-            paddingY={"1rem"}
-            width={"92%"}
-            margin={"2rem auto"}
-          >
-            <Text color="#5897e7" textAlign={"start"}>
-              Comments
-            </Text>
-            {renderedComments?.length ? (
-              renderedComments
-            ) : (
-              <h3>No comments yet...</h3>
-            )}
-          </Box>
+          {renderedComments && (
+            <Box
+              bg="#f7fafc"
+              paddingX={"1rem"}
+              paddingY={"1rem"}
+              width={"92%"}
+              margin={"2rem auto"}
+            >
+              <Text color="#5897e7" textAlign={"start"}>
+                Comments
+              </Text>
+              {renderedComments.length ? (
+                renderedComments
+              ) : (
+                <h3>No comments yet...</h3>
+              )}
+            </Box>
+          )}
         </GridItem>
         <GridItem>
           <DatePicker
             placeholder="Pick date"
             label="Post creation date"
             withAsterisk
+            ref={createdAtRef}
+            defaultValue={
+              post?.createdAt ? new Date(post.createdAt) : new Date()
+            }
+          />
+          <DatePicker
+            placeholder="Pick date"
+            label="Post update date"
+            withAsterisk
+            ref={updatedAtRef}
+            defaultValue={
+              post?.updatedAt ? new Date(post.updatedAt) : new Date()
+            }
+            mt={12}
           />
           <Text fontSize={"1rem"} textAlign={"start"} marginTop={"1rem"}>
             <Text as="b">Status: </Text>
-            Published
+            {post?.published === true
+              ? "PUBLISHED"
+              : post?.published === false
+              ? "UNPUBLISHED"
+              : "NOT CREATED"}
           </Text>
           <Box>
             <MultiSelect
@@ -219,15 +250,7 @@ const PostAdmin = () => {
               placeholder="Pick relevant tags"
             />
           </Box>
-          <Button
-            colorScheme={"red"}
-            leftIcon={<DeleteIcon />}
-            width="100%"
-            borderRadius={8}
-            marginTop={"1rem"}
-          >
-            Delete
-          </Button>
+          {deleteButton}
         </GridItem>
       </Grid>
     </Box>

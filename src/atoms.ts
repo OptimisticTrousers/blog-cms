@@ -37,3 +37,11 @@ export interface FetchPost {
       }
     | undefined;
 }
+
+export interface UserPost {
+  title: string;
+  contentHtml: string;
+  createdAt: string;
+  updatedAt: string;
+  published: boolean;
+}
