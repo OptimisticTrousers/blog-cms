@@ -43,13 +43,14 @@ const TagAdmin: FC<Props> = ({ tag, deleteButton, handleEditTag }) => {
   return (
     <Form onSubmit={handleSubmit}>
       <Heading size={"xl"} textAlign={"center"}>
-        Create a New Tag!
+        {tag ? `Update tag: ${tag._id}` : "Create a New Tag"}
       </Heading>
       <TextField
         size="lg"
         placeholder="Tag Title"
         sx={{ width: "100%", marginTop: "1rem" }}
         ref={nameRef}
+        defaultValue={tag && tag.name}
       />
       <Button
         color="white"
@@ -59,7 +60,7 @@ const TagAdmin: FC<Props> = ({ tag, deleteButton, handleEditTag }) => {
         marginTop={"1rem"}
         type="submit"
       >
-        Submit
+        SAVE
       </Button>
     </Form>
   );
