@@ -10,18 +10,20 @@ import { apiDomain } from "../../utils";
 import Error from "../../components/Error/Error";
 
 const Posts = () => {
-  const { loading, error, value }: FetchPosts = useFetch(`${apiDomain()}/posts`);
+  const { loading, error, value }: FetchPosts = useFetch(
+    `${apiDomain()}/posts`
+  );
 
   if (loading) {
     return <Loader size={"xl"} />;
   }
 
   if (error) {
-    return <Error error={error}/>
+    return <Error error={error} />;
   }
 
   const renderedPosts = value!.posts.map((post: Post) => {
-    return <PostCard {...post} />;
+    return <PostCard key={post._id} {...post} />;
   });
 
   return <section styleName="posts">{renderedPosts}</section>;
