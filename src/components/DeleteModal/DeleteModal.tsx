@@ -6,11 +6,11 @@ import { DeleteIcon } from "@chakra-ui/icons";
 interface Props {
   show: boolean;
   setShow: any;
-  tag: any;
+  data: any;
   handleDelete: any;
 }
 
-const DeleteModal: FC<Props> = ({ show, setShow, tag, handleDelete }) => {
+const DeleteModal: FC<Props> = ({ show, setShow, data, handleDelete }) => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
@@ -33,10 +33,10 @@ const DeleteModal: FC<Props> = ({ show, setShow, tag, handleDelete }) => {
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Delete {tag && tag.name}</Modal.Title>
+          <Modal.Title>Delete {data && data.name}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          Are you sure you want to delete {tag && tag.name}?
+          Are you sure you want to delete {data && data.name}?
         </Modal.Body>
         <Modal.Footer>
           <Button
