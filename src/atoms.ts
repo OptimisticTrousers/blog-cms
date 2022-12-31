@@ -1,12 +1,23 @@
 export interface Post {
   _id: string;
   title: string;
+  contentHtml: string;
   published: boolean;
+  tags: Array<string>;
+  category: string;
   createdAt: string;
   updatedAt: string;
-  contentHtml: string;
 }
 
+export interface Tag {
+  _id: string;
+  name: string;
+}
+
+export interface Category {
+  _id: string;
+  name: string;
+}
 export interface Comment {
   _id: string;
   name: string;
@@ -17,6 +28,30 @@ export interface Comment {
   updatedAt: string;
 }
 
+export interface FetchTag {
+  loading: boolean | undefined;
+  error: string | undefined;
+  value: { tag: Tag } | undefined;
+}
+
+export interface FetchTags {
+  loading: boolean | undefined;
+  error: string | undefined;
+  value: { tags: Tag[] } | undefined;
+}
+
+export interface FetchCategories {
+  loading: boolean | undefined;
+  error: string | undefined;
+  value: { categories: Category[] } | undefined;
+}
+
+export interface FetchCategory {
+  loading: boolean | undefined;
+  error: string | undefined;
+  value: { category: Category } | undefined;
+}
+
 export interface FetchPosts {
   loading: boolean | undefined;
   error: string | undefined;
@@ -25,6 +60,14 @@ export interface FetchPosts {
         posts: Post[];
       }
     | undefined;
+}
+
+export interface UserTag {
+  name: string;
+}
+
+export interface UserCategory {
+  name: string;
 }
 
 export interface FetchPost {
