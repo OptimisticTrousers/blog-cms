@@ -29,7 +29,6 @@ const CategoriesAdmin: FC<Props> = ({
   };
 
   const handleSubmit = (event) => {
-    if (!nameRef.current) return;
 
     event.preventDefault();
     const name = nameRef.current.children[0].children[0].value;
@@ -46,13 +45,16 @@ const CategoriesAdmin: FC<Props> = ({
   return (
     <Form onSubmit={handleSubmit}>
       <Heading size={"xl"} textAlign={"center"}>
-        Create a New Category!
+        {category
+          ? `Update category: ${category._id}`
+          : "Create a New Category"}
       </Heading>
       <TextField
         size="lg"
         placeholder="Category Title"
         sx={{ width: "100%", marginTop: "1rem" }}
         ref={nameRef}
+        defaultValue={category && category.name}
       />
       <Button
         color="white"
@@ -64,7 +66,6 @@ const CategoriesAdmin: FC<Props> = ({
       >
         Save
       </Button>
-      <Box>{deleteButton}</Box>
     </Form>
   );
 };
