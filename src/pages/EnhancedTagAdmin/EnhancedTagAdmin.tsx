@@ -76,7 +76,7 @@ const withTagEditing = (WrappedComponent: any) => {
           show={show}
           setShow={setShow}
           handleDelete={handleDelete}
-          tag={tag}
+          data={tag}
         />
       </>
     );
