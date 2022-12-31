@@ -40,7 +40,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
           <Route path="tags">
             <Route index element={<Tags />} />
             <Route path="create" element={<TagAdmin />} />
-            <Route path=":tagsId">
+            <Route path=":tagId">
               <Route index element={<EnhancedTagAdmin />} />
             </Route>
           </Route>

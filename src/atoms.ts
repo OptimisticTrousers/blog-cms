@@ -75,8 +75,7 @@ export interface FetchPost {
   error: string | undefined;
   value:
     | {
-        posts: Post;
-        comments: Comment[];
+        post: Post;
       }
     | undefined;
 }
