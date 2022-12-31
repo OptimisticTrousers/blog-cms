@@ -17,6 +17,7 @@
     "@mantine/dates": "^5.9.5",
     "@mantine/hooks": "^5.9.5",
     "@mui/joy": "^5.0.0-alpha.60",
+    "@mui/material": "^5.11.2",
     "@tinymce/tinymce-react": "^4.2.0",
     "axios": "^1.2.1",
     "bootstrap": "^5.2.3",

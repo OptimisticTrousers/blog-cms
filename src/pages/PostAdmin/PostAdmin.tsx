@@ -1,4 +1,4 @@
-import React, { FC, useRef, useContext, useEffect } from "react";
+import React, { FC, useRef, useContext, useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -14,6 +14,7 @@ import {
   GridItem,
   FormControl,
   FormLabel,
+  Image,
   Text,
 } from "@chakra-ui/react";
 import {
@@ -28,13 +29,21 @@ import useFetch from "../../hooks/useFetch";
 import { Link, useParams } from "react-router-dom";
 import Comment from "../../components/Comment/Comment";
 import Autocomplete from "@mui/joy/Autocomplete";
-import { Loader, MultiSelect } from "@mantine/core";
+import { Loader, MultiSelect, NativeSelect } from "@mantine/core";
 import { DatePicker } from "@mantine/dates";
 import { TextField } from "@mui/joy";
 import { apiDomain } from "../../utils";
-import { FetchPost, Post, UserPost } from "../../atoms";
+import {
+  FetchCategories,
+  FetchPost,
+  FetchTags,
+  Post,
+  UserPost,
+} from "../../atoms";
 import Error from "../../components/Error/Error";
 import axios from "axios";
+import EnhancedCategoryAdmin from "../EnhancedCategoryAdmin/EnhancedCategoryAdmin";
+import { Form } from "react-bootstrap";
 
 const data = [
   { value: "react", label: "React" },
@@ -48,7 +57,6 @@ const data = [
 
 interface Props {
   post?: Post;
-  renderedComments?: JSX.Element[];
   deleteButton?: HTMLButtonElement;
   previewButton?: HTMLButtonElement;
   handleEditPost?: any;
@@ -56,19 +64,69 @@ interface Props {
 
 const PostAdmin: FC<Props> = ({
   post,
-  renderedComments,
   deleteButton,
   previewButton,
   handleEditPost,
 }) => {
   const editorRef = useRef<TinyMCEEditor | null>(null);
   const titleRef = useRef(null);
+  const categoryRef = useRef(null);
+  const tagRef = useRef(null);
+  const captionRef = useRef(null);
   const updatedAtRef = useRef(null);
   const createdAtRef = useRef(null);
+  const imageRef = useRef(null);
 
-  // Form information
+  const {
+    loading: categoriesLoading,
+    error: categoriesError,
+    value: categoriesValue,
+  }: FetchCategories = useFetch(`${apiDomain()}/categories`);
 
-  const handleCreatePost = async (values: UserPost) => {
+  const {
+    loading: tagsLoading,
+    error: tagsError,
+    value: tagsValue,
+  }: FetchTags = useFetch(`${apiDomain()}/tags`);
+
+  if (categoriesLoading || tagsLoading) {
+    return <Loader size={"xl"} />;
+  }
+
+  if (categoriesError) {
+    return <Error error={categoriesError} />;
+  }
+
+  if (tagsError) {
+    <Error error={tagsError} />;
+  }
+
+  const categories = categoriesValue!.categories.map((category) => {
+    return {
+      _id: category._id,
+      value: category.name,
+      label: category.name,
+    };
+  });
+
+  const tags = tagsValue!.tags.map((tag) => {
+    return {
+      _id: tag._id,
+      value: tag.name,
+      label: tag.name,
+    };
+  });
+
+  const currentCategory = categoriesValue!.categories.find(
+    (category) => category._id === post?.category
+  )?.name;
+
+  const currentTags = tagsValue!.tags
+    .filter((tag) => post?.tags.includes(tag._id))
+    .map((tag) => tag.name);
+
+  const handleCreatePost = async (values: any) => {
+    console.log(values.values());
     try {
       const { data } = await axios.post(`${apiDomain()}/posts`, values);
       console.log(data);
@@ -77,18 +135,61 @@ const PostAdmin: FC<Props> = ({
     }
   };
 
-  const handleSubmit = (published: boolean) => {
-    const title = titleRef.current.children[0].children[0].value;
-    const contentHtml = editorRef.current.getContent();
-    const createdAt = createdAtRef.current.value;
-    const updatedAt = updatedAtRef.current.value;
-    const post = {
+  const handleSubmit = (event: any) => {
+    event.preventDefault();
+
+    console.log(event.currentTarget.elements);
+
+    const {
       title,
-      published,
-      contentHtml,
       createdAt,
       updatedAt,
-    };
+      image,
+      category,
+      caption,
+      tags: userTags,
+    } = event.currentTarget.elements;
+
+    const categoryId = categories.find(
+      (element) => element.value === category.value
+    )._id;
+
+    const filteredTags = tags.filter((element) =>
+      userTags.value.split(",").includes(element.value)
+    );
+
+    const tagIds = filteredTags.map((element) => element._id);
+
+    console.log(tagIds);
+
+    console.log(image.files[0]);
+
+    // const post = {
+    //   title: title.value,
+    //   createdAt: new Date(createdAt.value),
+    //   updatedAt: new Date(updatedAt.value),
+    //   contentHtml: editorRef.current?.getContent(),
+    //   published: event.nativeEvent.submitter.name,
+    //   caption: caption.value,
+    //   image: image.files[0],
+    //   category: categoryId,
+    //   tags: tagIds,
+    // };
+
+    const post = new FormData();
+    post.append("title", title.value);
+    post.append("createdAt", new Date(createdAt.value));
+    post.append("updatedAt", new Date(updatedAt.value));
+    post.append("contentHtml", editorRef.current?.getContent());
+    post.append("published", event.nativeEvent.submitter.name);
+    post.append("caption", caption.value);
+    post.append("category", categoryId);
+    post.append("tags", tagIds);
+    post.append("image", image.files[0]);
+
+    // for (const value of post.values()) {
+    //   console.log(value)
+    // }
 
     if (handleEditPost) {
       handleEditPost(post);
@@ -97,17 +198,20 @@ const PostAdmin: FC<Props> = ({
     }
   };
 
+  console.log(post);
+
   return (
-    <Box>
+    <Form onSubmit={handleSubmit} encType="multipart/form-data" >
       <Stack direction="row" marginBottom={40}>
         <TextField
           size="lg"
           placeholder="Post Title"
+          name="title"
           sx={{ width: "100%" }}
           ref={titleRef}
           defaultValue={post?.title}
         />
-        {previewButton}
+        <Box>{previewButton}</Box>
         <Menu>
           <MenuButton
             as={Button}
@@ -119,10 +223,10 @@ const PostAdmin: FC<Props> = ({
             Save
           </MenuButton>
           <MenuList>
-            <MenuItem onClick={() => handleSubmit(true)}>
+            <MenuItem name="published" type="submit">
               Save as published
             </MenuItem>
-            <MenuItem onClick={() => handleSubmit(false)}>
+            <MenuItem name="unpublished" type="submit">
               Save as unpublished
             </MenuItem>
           </MenuList>
@@ -159,6 +263,7 @@ const PostAdmin: FC<Props> = ({
             <Editor
               onInit={(evt, editor) => (editorRef.current = editor)}
               apiKey={import.meta.env.TINY_API_KEY}
+              name="contentHtml"
               initialValue={post?.contentHtml ?? "<p>Bob Jones is great!</p>"}
               init={{
                 height: 500,
@@ -178,7 +283,7 @@ const PostAdmin: FC<Props> = ({
               }}
             />
           </Box>
-          {/* <Box
+          <Box
             bg="#f7fafc"
             paddingX={"1rem"}
             paddingY={"1rem"}
@@ -188,72 +293,106 @@ const PostAdmin: FC<Props> = ({
             <Text color="#5897e7" textAlign={"start"}>
               Image
             </Text>
-          </Box> */}
-          {renderedComments && (
-            <Box
-              bg="#f7fafc"
-              paddingX={"1rem"}
-              paddingY={"1rem"}
-              width={"92%"}
-              margin={"2rem auto"}
-            >
-              <Text color="#5897e7" textAlign={"start"}>
-                Comments
+            <Stack direction="row">
+              {/* <Text
+                color="#78879c"
+                whiteSpace={"nowrap"}
+                paddingRight={"1rem"}
+                margin={"auto"}
+              >
+                Existing Image*
+              </Text> */}
+             {post?.image && <Image
+                src={`${apiDomain()}/images/${post?.image.filename}`}
+                crossOrigin="anonymous"
+                boxSize="100%"
+                objectFit={"cover"}
+                marginBottom={"2rem"}
+              />}
+            </Stack>
+            <Stack direction="row">
+              <Text
+                color="#78879c"
+                whiteSpace={"nowrap"}
+                paddingRight={"1rem"}
+                margin={"auto"}
+              >
+                Upload image*
               </Text>
-              {renderedComments.length ? (
-                renderedComments
-              ) : (
-                <h3>No comments yet...</h3>
-              )}
-            </Box>
-          )}
+              <Form.Control type="file" ref={imageRef} name="image" />
+            </Stack>
+            <Stack direction="row" marginTop={"1rem"}>
+              <Text
+                color="#78879c"
+                whiteSpace={"nowrap"}
+                margin={"auto"}
+                paddingRight={"1rem"}
+              >
+                Caption
+              </Text>
+              <Form.Control
+                ref={captionRef}
+                name="caption"
+                defaultValue={post?.caption}
+              />
+            </Stack>
+          </Box>
         </GridItem>
         <GridItem>
-          <DatePicker
-            placeholder="Pick date"
-            label="Post creation date"
-            withAsterisk
-            ref={createdAtRef}
-            defaultValue={
-              post?.createdAt ? new Date(post.createdAt) : new Date()
-            }
-          />
-          <DatePicker
-            placeholder="Pick date"
-            label="Post update date"
-            withAsterisk
-            ref={updatedAtRef}
-            defaultValue={
-              post?.updatedAt ? new Date(post.updatedAt) : new Date()
-            }
-            mt={12}
-          />
-          <Text fontSize={"1rem"} textAlign={"start"} marginTop={"1rem"}>
-            <Text as="b">Status: </Text>
-            {post?.published === true
-              ? "PUBLISHED"
-              : post?.published === false
-              ? "UNPUBLISHED"
-              : "NOT CREATED"}
-          </Text>
           <Box>
-            <MultiSelect
-              data={data}
-              label="Categories"
-              placeholder="Pick relevant categories"
+            <DatePicker
+              placeholder="Pick date"
+              label="Post creation date"
+              withAsterisk
+              ref={createdAtRef}
+              name="createdAt"
+              defaultValue={
+                post?.createdAt ? new Date(post.createdAt) : new Date()
+              }
             />
-          </Box>
-          <Box marginTop={"1rem"}>
+            <DatePicker
+              placeholder="Pick date"
+              label="Post update date"
+              withAsterisk
+              ref={updatedAtRef}
+              name="updatedAt"
+              defaultValue={
+                post?.updatedAt ? new Date(post.updatedAt) : new Date()
+              }
+              mt={12}
+            />
+            <Text fontSize={"1rem"} textAlign={"start"} marginTop={"1rem"}>
+              <Text as="b">Status: </Text>
+              {post?.published === true
+                ? "PUBLISHED"
+                : post?.published === false
+                ? "UNPUBLISHED"
+                : "NOT CREATED"}
+            </Text>
+            <NativeSelect
+              data={categories}
+              defaultValue={currentCategory}
+              label="Category"
+              placeholder="Pick relevant categories"
+              withAsterisk
+              name="category"
+              ref={categoryRef}
+            />
             <MultiSelect
-              data={data}
+              data={tags}
               label="Tags"
               placeholder="Pick relevant tags"
+              mt={"1rem"}
+              withAsterisk
+              name="tags"
+              defaultValue={currentTags}
+              ref={tagRef}
             />
+            {deleteButton}
           </Box>
-          {deleteButton}
         </GridItem>
       </Grid>
-    </Box>
+    </Form>
   );
 };
 
