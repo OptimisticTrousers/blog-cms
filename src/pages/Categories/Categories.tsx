@@ -35,7 +35,7 @@ const Categories = () => {
       <Heading fontSize={"3rem"} textAlign={"center"}>
         Categories
       </Heading>
-      <section>{renderedCategories}</section>;
+      <section>{renderedCategories}</section>
     </>
   );
 };
