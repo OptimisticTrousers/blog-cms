@@ -162,13 +162,14 @@ const PostAdmin: FC<Props> = ({
 
     const nativeEvent = event.nativeEvent as SubmitEvent;
     const submitter = nativeEvent.submitter as HTMLButtonElement;
+    const published = submitter.name === "published" ? true : false;
 
     const userPost = new FormData();
     userPost.append("title", titleElement.value);
     userPost.append("createdAt", new Date(createdAtElement.value).toString());
     userPost.append("updatedAt", new Date(updatedAtElement.value).toString());
     userPost.append("contentHtml", editorRef.current?.getContent()!);
-    userPost.append("published", submitter.name);
+    userPost.append("published", published.toString());
     userPost.append("caption", captionElement.value);
     userPost.append("category", categoryId!);
     userPost.append("tags", tagIds.toString());
