@@ -1,4 +1,3 @@
-import React from "react";
 import { useParams } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
 import { BsCalendar3 } from "react-icons/bs";
@@ -14,17 +13,19 @@ import Error from "../../components/Error/Error";
 const PostPreview = () => {
   const { postId } = useParams();
 
-  const { loading, error, value }: FetchPost = useFetch(`${apiDomain()}/${postId}`);
+  const { loading, error, value }: FetchPost = useFetch(
+    `${apiDomain()}/posts/${postId}`
+  );
 
   if (loading) {
     return <Loader size={"xl"} />;
   }
 
   if (error) {
-    return <Error error={error}/>;
+    return <Error error={error} />;
   }
 
-  const { title, createdAt, updatedAt, contentHtml } = value!.posts;
+  const { title, createdAt, updatedAt, contentHtml } = value!.post;
 
   return (
     <article styleName="preview">
