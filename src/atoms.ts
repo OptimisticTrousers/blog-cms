@@ -1,5 +1,10 @@
 import { ReactNode } from "react";
 
+export interface Category {
+  _id: string;
+  name: string;
+}
+
 export interface Post {
   _id: string;
   title: string;
@@ -27,30 +32,16 @@ export interface Tag {
   name: string;
 }
 
-export interface Category {
-  _id: string;
-  name: string;
-}
-export interface Comment {
-  _id: string;
-  name: string;
-  email: string;
-  postId: string;
-  contentHtml: string;
-  createdAt: string;
-  updatedAt: string;
-}
-
-export interface handleEditTagsFn {
-  (values: UserTag): Promise<void>;
+export interface handleEditCategoriesFn {
+  (values: UserCategory): Promise<void>;
 }
 
 export interface handleEditPostsFn {
   (values: FormData): Promise<void>;
 }
 
-export interface handleEditCategoriesFn {
-  (values: UserCategory): Promise<void>;
+export interface handleEditTagsFn {
+  (values: UserTag): Promise<void>;
 }
 
 export interface CategoryAdminProps {
@@ -70,18 +61,6 @@ export interface TagAdminProps {
   tag?: Tag;
   deleteButton?: ReactNode;
   handleEditTag?: handleEditTagsFn;
-}
-
-export interface FetchTag {
-  loading: boolean | undefined;
-  error: string | undefined;
-  value: { tag: Tag; posts: Post[] } | undefined;
-}
-
-export interface FetchTags {
-  loading: boolean | undefined;
-  error: string | undefined;
-  value: { tags: Tag[] } | undefined;
 }
 
 export interface FetchCategories {
@@ -106,14 +85,6 @@ export interface FetchPosts {
     | undefined;
 }
 
-export interface UserTag {
-  name: string;
-}
-
-export interface UserCategory {
-  name: string;
-}
-
 export interface FetchPost {
   loading: boolean | undefined;
   error: string | undefined;
@@ -122,6 +93,26 @@ export interface FetchPost {
         post: Post;
       }
     | undefined;
+}
+
+export interface FetchTags {
+  loading: boolean | undefined;
+  error: string | undefined;
+  value: { tags: Tag[] } | undefined;
+}
+
+export interface FetchTag {
+  loading: boolean | undefined;
+  error: string | undefined;
+  value: { tag: Tag; posts: Post[] } | undefined;
+}
+
+export interface UserTag {
+  name: string;
+}
+
+export interface UserCategory {
+  name: string;
 }
 
 export interface UserPost {
