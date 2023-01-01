@@ -9,6 +9,7 @@ import { Loader } from "@mantine/core";
 import { apiDomain } from "../../utils";
 import { FetchPost } from "../../atoms";
 import Error from "../../components/Error/Error";
+import { Image } from "@chakra-ui/react";
 
 const PostPreview = () => {
   const { postId } = useParams();
@@ -32,10 +33,11 @@ const PostPreview = () => {
     <article styleName="preview">
       <h2 styleName="preview__title">{title}</h2>
       <figure styleName="preview__container">
-        <img
+        <Image
           styleName="preview__image"
           src={`${apiDomain()}/images/${image.filename}`}
-          width="100%"
+          boxSize="60%"
+          objectFit={"contain"}
           alt={title}
         />
         <figcaption styleName="preview__caption">{caption}</figcaption>
