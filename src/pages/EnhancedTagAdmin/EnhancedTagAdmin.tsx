@@ -64,7 +64,6 @@ const withTagEditing = (WrappedComponent: any) => {
           paddingTop: "0.6rem",
           paddingBottom: "0.6rem",
           textDecoration: "none",
-          marginTop: "1rem",
           borderRadius: "8px",
         }}
         onClick={() => setShow(true)}
@@ -90,7 +89,7 @@ const withTagEditing = (WrappedComponent: any) => {
             justifyContent={"center"}
           >
             {posts.map((post: Post) => {
-              return <PostCard {...post} />;
+              return <PostCard key={post._id} {...post} />;
             })}
           </Grid>
         </Stack>

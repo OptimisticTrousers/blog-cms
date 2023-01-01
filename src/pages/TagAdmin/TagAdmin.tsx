@@ -1,18 +1,18 @@
-import { Box, Heading } from "@chakra-ui/react";
+import { Box, Heading, Stack } from "@chakra-ui/react";
 import { TextField } from "@mui/joy";
 import axios from "axios";
-import { FC, FormEvent, useRef } from "react";
+import { FC, FormEvent, ReactNode } from "react";
 import { Tag, UserTag } from "../../atoms";
 import { apiDomain } from "../../utils";
 import { Button } from "@chakra-ui/react";
 import { Form } from "react-bootstrap";
 
 interface handleEditFn {
-  (values: Tag): Promise<void>;
+  (values: UserTag): Promise<void>;
 }
 interface Props {
   tag?: Tag;
-  deleteButton?: HTMLButtonElement;
+  deleteButton?: ReactNode;
   handleEditTag?: handleEditFn;
 }
 
@@ -29,9 +29,11 @@ const TagAdmin: FC<Props> = ({ tag, deleteButton, handleEditTag }) => {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const { name } = event.currentTarget.elements;
+    const nameElement = event.currentTarget.elements.namedItem(
+      "name"
+    ) as HTMLInputElement;
 
-    const tag = { name };
+    const tag = { name: nameElement.value };
 
     if (handleEditTag) {
       handleEditTag(tag);
@@ -42,7 +44,7 @@ const TagAdmin: FC<Props> = ({ tag, deleteButton, handleEditTag }) => {
 
   return (
     <Form onSubmit={handleSubmit}>
-      <Box>
+      <Stack>
         <Heading size={"xl"} textAlign={"center"}>
           {tag ? `Update tag: ${tag._id}` : "Create a New Tag"}
         </Heading>
@@ -64,7 +66,7 @@ const TagAdmin: FC<Props> = ({ tag, deleteButton, handleEditTag }) => {
           SAVE
         </Button>
         <Box>{deleteButton}</Box>
-      </Box>
+      </Stack>
     </Form>
   );
 };

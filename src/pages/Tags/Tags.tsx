@@ -1,3 +1,4 @@
+import { Heading } from "@chakra-ui/react";
 import { Loader } from "@mantine/core";
 import { FetchTags, Tag } from "../../atoms";
 import Card from "../../components/Card/Card";
@@ -20,7 +21,14 @@ const Tags = () => {
     return <Card key={tag._id} _id={tag._id} name={tag.name} prefix="tags" />;
   });
 
-  return <section>{renderedTags}</section>;
+  return (
+    <>
+      <Heading fontSize={"3rem"} textAlign={"center"}>
+        Tags
+      </Heading>
+      <section>{renderedTags}</section>
+    </>
+  );
 };
 
 export default Tags;

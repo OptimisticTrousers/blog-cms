@@ -13,6 +13,7 @@ export interface Post {
     path: string;
     size: string;
   };
+  caption: string;
   category: string;
   createdAt: string;
   updatedAt: string;

@@ -1,3 +1,4 @@
+import { Heading } from "@chakra-ui/react";
 import { Loader } from "@mantine/core";
 import { Category, FetchCategories } from "../../atoms";
 import CategoryCard from "../../components/Card/Card";
@@ -29,7 +30,14 @@ const Categories = () => {
     );
   });
 
-  return <section>{renderedCategories}</section>;
+  return (
+    <>
+      <Heading fontSize={"3rem"} textAlign={"center"}>
+        Categories
+      </Heading>
+      <section>{renderedCategories}</section>;
+    </>
+  );
 };
 
 export default Categories;
