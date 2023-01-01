@@ -24,7 +24,7 @@
 .card__image {
   width: 100%;
   object-fit: contain;
-  border-bottom: 2px solid #9ca9ad;
+  border-radius: 32px;
 }
 
 .card__content {
@@ -49,8 +49,8 @@
 
 .card__status {
   position: absolute;
-  top: 8px;
-  left: 20px;
+  top: 48px;
+  left: 32px;
   padding: 0.5rem 1.5rem;
   color: white;
   border-radius: 50px;
@@ -76,15 +76,15 @@
 }
 
 .card__link {
-    width: 90%;
-    margin-left: 1rem;
-    margin-right: 1rem;
-    margin-bottom: 1rem;
-    margin-top: auto;
+  width: 90%;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+  margin-top: auto;
 }
 
 .card__button {
-    width: 100%;
+  width: 100%;
 }
 
 .card__bold {

@@ -1,12 +1,9 @@
 import { Loader } from "@mantine/core";
-import React from "react";
-import CSSModules from "react-css-modules";
 import { Category, FetchCategories } from "../../atoms";
 import CategoryCard from "../../components/Card/Card";
 import Error from "../../components/Error/Error";
 import useFetch from "../../hooks/useFetch";
 import { apiDomain } from "../../utils";
-import styles from "./Categories.module.css";
 
 const Categories = () => {
   const { loading, error, value }: FetchCategories = useFetch(
@@ -32,10 +29,7 @@ const Categories = () => {
     );
   });
 
-  return <section styleName="categories">{renderedCategories}</section>;
+  return <section>{renderedCategories}</section>;
 };
 
-export default CSSModules(Categories, styles, {
-  allowMultiple: true,
-  handleNotFoundStyleName: "log",
-});
+export default Categories;

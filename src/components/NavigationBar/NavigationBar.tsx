@@ -29,15 +29,11 @@ function NavigationBar() {
                 title="Lists"
                 id={`offcanvasNavbarDropdown-expand-sm`}
               >
-                <NavDropdown.Item href="/posts">
-                  All Posts
-                </NavDropdown.Item>
+                <NavDropdown.Item href="/posts">All Posts</NavDropdown.Item>
                 <NavDropdown.Item href="/categories">
                   All Categories
                 </NavDropdown.Item>
-                <NavDropdown.Item href="/tags">
-                  All Tags
-                </NavDropdown.Item>
+                <NavDropdown.Item href="/tags">All Tags</NavDropdown.Item>
               </NavDropdown>
               <NavDropdown
                 title="Create"

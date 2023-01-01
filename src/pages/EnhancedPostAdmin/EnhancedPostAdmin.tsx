@@ -1,5 +1,5 @@
 import { DeleteIcon, EditIcon, ViewIcon } from "@chakra-ui/icons";
-import { Box, Button, useDisclosure } from "@chakra-ui/react";
+import { Box, useDisclosure } from "@chakra-ui/react";
 import { Loader } from "@mantine/core";
 import axios from "axios";
 import React, { ComponentType, FC, useState } from "react";
@@ -11,6 +11,7 @@ import { apiDomain } from "../../utils";
 import Comment from "../../components/Comment/Comment";
 import Error from "../../components/Error/Error";
 import DeleteModal from "../../components/DeleteModal/DeleteModal";
+import { Button } from "@mui/material";
 
 const withPostEditing = (WrappedComponent: any) => {
   return () => {
@@ -57,19 +58,37 @@ const withPostEditing = (WrappedComponent: any) => {
     };
 
     const previewButton = (
-      <Link to={`/posts/${postId}/preview`} target="_blank">
-        <Button leftIcon={<ViewIcon />}>Preview</Button>
+      <Link
+        to={`/posts/${postId}/preview`}
+        target="_blank"
+        style={{ textDecoration: "none" }}
+      >
+        <Button
+          variant="contained"
+          color="secondary"
+          sx={{
+            width: "100%",
+            paddingTop: "0.6rem",
+            paddingBottom: "0.6rem",
+            textDecoration: "none",
+          }}
+        >
+          Preview
+        </Button>
       </Link>
     );
 
     const deleteButton = (
       <Button
-        colorScheme={"red"}
-        leftIcon={<DeleteIcon />}
-        width="100%"
-        borderRadius={8}
+        variant="outlined"
+        color="error"
+        sx={{
+          width: "100%",
+          marginTop: "1rem",
+          paddingTop: "0.5rem",
+          paddingBottom: "0.5rem",
+        }}
         onClick={() => setShow(true)}
-        marginTop={"1rem"}
       >
         Delete
       </Button>

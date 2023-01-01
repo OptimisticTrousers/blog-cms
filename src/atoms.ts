@@ -3,7 +3,16 @@ export interface Post {
   title: string;
   contentHtml: string;
   published: boolean;
-  tags: Array<string>;
+  image: {
+    fieldname: string;
+    originalname: string;
+    encoding: string;
+    mimetype: string;
+    destination: string;
+    filename: string;
+    path: string;
+    size: string;
+  };
   category: string;
   createdAt: string;
   updatedAt: string;

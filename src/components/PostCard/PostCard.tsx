@@ -38,8 +38,8 @@ const PostCard: FC<Post> = ({
           <Date dateString={createdAt} />
         </span>
         <h2 styleName="card__title">{title}</h2>
-        <p styleName="card__snippet">{parse(contentHtml)}</p>
-        <div styleName="card__flex">
+        <div styleName="card__snippet">{parse(contentHtml)}</div>
+        <div>
           <span styleName="card__date">
             <span styleName="card__bold">Updated on: </span>
             <Date dateString={updatedAt} />

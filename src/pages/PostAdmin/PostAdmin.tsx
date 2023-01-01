@@ -202,7 +202,7 @@ const PostAdmin: FC<Props> = ({
 
   return (
     <Form onSubmit={handleSubmit} encType="multipart/form-data" >
-      <Stack direction="row" marginBottom={40}>
+      <Stack direction="row" marginBottom={40} alignItems={"center"}>
         <TextField
           size="lg"
           placeholder="Post Title"

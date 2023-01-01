@@ -1,43 +1,31 @@
-import React, { FC, useState } from "react";
+// @ts-nocheck
+import React, { FC } from "react";
 import { Button } from "@mui/material";
 import Modal from "react-bootstrap/Modal";
-import { DeleteIcon } from "@chakra-ui/icons";
+import { Post, Tag, Category } from "../../atoms";
 
+interface handleDeleteFn {
+  (): Promise<void>;
+}
 interface Props {
   show: boolean;
-  setShow: any;
-  data: any;
-  handleDelete: any;
+  setShow: React.Dispatch<React.SetStateAction<boolean>>;
+  data: Post | Tag | Category;
+  handleDelete: handleDeleteFn;
 }
 
 const DeleteModal: FC<Props> = ({ show, setShow, data, handleDelete }) => {
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+
+  const name = data?.name ? data.name : data.title;
 
   return (
     <>
-      <Button
-        variant="outlined"
-        color="error"
-        sx={{
-          width: "100%",
-          marginTop: "1rem",
-          paddingTop: "0.5rem",
-          paddingBottom: "0.5rem",
-        }}
-        startIcon={<DeleteIcon />}
-        onClick={handleShow}
-      >
-        Delete
-      </Button>
-
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Delete {data && data.name}</Modal.Title>
+          <Modal.Title>Delete {name}</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
-          Are you sure you want to delete {data && data.name}?
-        </Modal.Body>
+        <Modal.Body>Are you sure you want to delete {name}?</Modal.Body>
         <Modal.Footer>
           <Button
             variant="outlined"
