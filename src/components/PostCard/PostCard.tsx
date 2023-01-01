@@ -41,7 +41,7 @@ const PostCard: FC<Post> = ({
         <p styleName="card__snippet">{parse(contentHtml)}</p>
         <div styleName="card__flex">
           <span styleName="card__date">
-            <span styleName="card__bold">Updated: </span>
+            <span styleName="card__bold">Updated on: </span>
             <Date dateString={updatedAt} />
           </span>
         </div>
