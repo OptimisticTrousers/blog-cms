@@ -1,5 +1,14 @@
 import { DeleteIcon } from "@chakra-ui/icons";
-import { Button, useDisclosure, Wrap } from "@chakra-ui/react";
+import {
+  Button,
+  Grid,
+  Heading,
+  SimpleGrid,
+  Stack,
+  Tag,
+  useDisclosure,
+  Wrap,
+} from "@chakra-ui/react";
 import { Loader } from "@mantine/core";
 import axios from "axios";
 import React, { useState } from "react";
@@ -10,6 +19,7 @@ import { apiDomain } from "../../utils";
 import Error from "../../components/Error/Error";
 import CategoryAdmin from "../CategoriesAdmin/CategoriesAdmin";
 import DeleteModal from "../../components/DeleteModal/DeleteModal";
+import PostCard from "../../components/PostCard/PostCard";
 
 const withCategoryEditing = (WrappedComponent: any) => {
   return () => {
@@ -30,6 +40,7 @@ const withCategoryEditing = (WrappedComponent: any) => {
     }
 
     const category = value!.category;
+    const posts = value!.posts;
 
     const handleEditCategory = async (values: UserCategory) => {
       try {
@@ -73,7 +84,17 @@ const withCategoryEditing = (WrappedComponent: any) => {
           category={value!.category}
           deleteButton={deleteButton}
           handleEditCategory={handleEditCategory}
-        />
+        />{" "}
+        <Stack>
+          <Heading size={"xl"} textAlign={"center"} marginTop={"1rem"}>
+            Posts associated with: {category.name}
+          </Heading>
+          <Grid templateColumns={"repeat(auto-fit, 300px)"} gap={32}>
+            {posts.map((post: any) => {
+              return <PostCard {...post} />;
+            })}
+          </Grid>
+        </Stack>
         <DeleteModal
           handleDelete={handleDelete}
           show={show}

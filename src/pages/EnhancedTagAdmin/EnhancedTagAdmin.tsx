@@ -1,5 +1,5 @@
 import { DeleteIcon } from "@chakra-ui/icons";
-import { Button, useDisclosure, Wrap } from "@chakra-ui/react";
+import { Button, Grid, Heading, Stack, useDisclosure, Wrap } from "@chakra-ui/react";
 import { Loader } from "@mantine/core";
 import axios from "axios";
 import React, { useState } from "react";
@@ -10,6 +10,7 @@ import TagAdmin from "../TagAdmin/TagAdmin";
 import { apiDomain } from "../../utils";
 import Error from "../../components/Error/Error";
 import DeleteModal from "../../components/DeleteModal/DeleteModal";
+import PostCard from "../../components/PostCard/PostCard";
 
 const withTagEditing = (WrappedComponent: any) => {
   return () => {
@@ -30,6 +31,9 @@ const withTagEditing = (WrappedComponent: any) => {
     }
 
     const tag = value!.tag;
+
+    const posts = value!.posts
+    console.log(posts)
 
     const handleEditTag = async (values: UserTag) => {
       try {
@@ -72,6 +76,16 @@ const withTagEditing = (WrappedComponent: any) => {
           deleteButton={deleteButton}
           handleEditTag={handleEditTag}
         />
+        <Stack>
+          <Heading size={"xl"} textAlign={"center"} marginTop={"1rem"}>
+            Posts associated with: {tag.name}
+          </Heading>
+          <Grid templateColumns={"repeat(auto-fit, 400px)"} gap={32}>
+            {posts.map((post: any) => {
+              return <PostCard {...post} />;
+            })}
+          </Grid>
+        </Stack>
         <DeleteModal
           show={show}
           setShow={setShow}
