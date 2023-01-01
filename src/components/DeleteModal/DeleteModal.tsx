@@ -23,9 +23,11 @@ const DeleteModal: FC<Props> = ({ show, setShow, data, handleDelete }) => {
     <>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Delete {name}</Modal.Title>
+          <Modal.Title>Delete "{name}"</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Are you sure you want to delete {name}?</Modal.Body>
+        <Modal.Body>
+          Are you sure you want to delete <strong>{name}</strong>?
+        </Modal.Body>
         <Modal.Footer>
           <Button
             variant="outlined"
