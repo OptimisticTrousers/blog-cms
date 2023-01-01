@@ -1,0 +1,43 @@
+.home {
+  max-width: 840px;
+  width: 100%;
+  text-align: center;
+  margin: 0 auto;
+  padding: 0 20px;
+  box-sizing: border-box;
+  margin-top: 150px;
+}
+
+.home__title {
+  font-size: 70px;
+  margin-bottom: 34px;
+  font-weight: 900;
+  color: #01b7ee;
+  line-height: 1;
+  margin: 0 0 20px;
+}
+
+.home__subtitle {
+  font-size: 36px;
+  margin: 0 auto 24px;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+.home__description {
+  margin: 0 auto;
+  font-size: 18px;
+  line-height: 1.8;
+}
+
+.home__container {
+  margin-top: 150px;
+}
+
+.home__try {
+  display: inline-block;
+  font-size: 24px;
+  margin: 0 20px 0 0;
+  vertical-align: middle;
+  line-height: 30px;
+}
