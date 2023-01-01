@@ -1,15 +1,18 @@
-import { Box, MenuButton, Button, Heading } from "@chakra-ui/react";
+import { Box, Button, Heading } from "@chakra-ui/react";
 import { TextField } from "@mui/joy";
 import axios from "axios";
-import React, { FC, useRef } from "react";
+import { FC, FormEvent, ReactNode } from "react";
 import { Form } from "react-bootstrap";
-import { Category, UserCategory } from "../../atoms";
+import { Category, UserCategory, UserTag } from "../../atoms";
 import { apiDomain } from "../../utils";
 
+interface handleEditFn {
+  (values: UserTag): Promise<void>;
+}
 interface Props {
   category?: Category;
-  deleteButton?: HTMLButtonElement;
-  handleEditCategory?: any;
+  deleteButton?: ReactNode;
+  handleEditCategory?: handleEditFn;
 }
 
 const CategoriesAdmin: FC<Props> = ({
@@ -17,8 +20,6 @@ const CategoriesAdmin: FC<Props> = ({
   deleteButton,
   handleEditCategory,
 }) => {
-  const nameRef = useRef<HTMLDivElement | null>(null);
-
   const handleCreateCategory = async (values: UserCategory) => {
     try {
       const { data } = await axios.post(`${apiDomain()}/categories`, values);
@@ -28,12 +29,14 @@ const CategoriesAdmin: FC<Props> = ({
     }
   };
 
-  const handleSubmit = (event) => {
-
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const name = nameRef.current.children[0].children[0].value;
 
-    const category = { name };
+    const nameElement = event.currentTarget.elements.namedItem(
+      "name"
+    ) as HTMLInputElement;
+
+    const category = { name: nameElement.value };
 
     if (handleEditCategory) {
       handleEditCategory(category);
@@ -53,7 +56,6 @@ const CategoriesAdmin: FC<Props> = ({
         size="lg"
         placeholder="Category Title"
         sx={{ width: "100%", marginTop: "1rem" }}
-        ref={nameRef}
         defaultValue={category && category.name}
       />
       <Button
@@ -66,6 +68,7 @@ const CategoriesAdmin: FC<Props> = ({
       >
         Save
       </Button>
+      <Box>{deleteButton}</Box>
     </Form>
   );
 };

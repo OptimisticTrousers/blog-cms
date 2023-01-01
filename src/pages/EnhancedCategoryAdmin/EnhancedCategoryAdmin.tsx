@@ -1,17 +1,8 @@
 import { DeleteIcon } from "@chakra-ui/icons";
-import {
-  Button,
-  Grid,
-  Heading,
-  SimpleGrid,
-  Stack,
-  Tag,
-  useDisclosure,
-  Wrap,
-} from "@chakra-ui/react";
+import { Button, Grid, Heading, Stack } from "@chakra-ui/react";
 import { Loader } from "@mantine/core";
 import axios from "axios";
-import React, { useState } from "react";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { FetchCategory, UserCategory } from "../../atoms";
 import useFetch from "../../hooks/useFetch";
@@ -24,8 +15,8 @@ import PostCard from "../../components/PostCard/PostCard";
 const withCategoryEditing = (WrappedComponent: any) => {
   return () => {
     const { categoryId } = useParams();
+
     const [show, setShow] = useState(false);
-    const { isOpen, onOpen, onClose } = useDisclosure();
 
     const { loading, error, value }: FetchCategory = useFetch(
       `${apiDomain()}/categories/${categoryId}`

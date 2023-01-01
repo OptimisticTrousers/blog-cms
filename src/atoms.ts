@@ -59,7 +59,7 @@ export interface FetchCategories {
 export interface FetchCategory {
   loading: boolean | undefined;
   error: string | undefined;
-  value: { category: Category } | undefined;
+  value: { category: Category, posts: Post[] } | undefined;
 }
 
 export interface FetchPosts {
