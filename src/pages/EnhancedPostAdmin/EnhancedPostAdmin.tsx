@@ -2,7 +2,7 @@ import { useDisclosure } from "@chakra-ui/react";
 import { Loader } from "@mantine/core";
 import axios from "axios";
 import { useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { FetchPost, Post, UserPost } from "../../atoms";
 import useFetch from "../../hooks/useFetch";
 import PostAdmin from "../../pages/PostAdmin/PostAdmin";
@@ -14,6 +14,8 @@ import { Button } from "@mui/material";
 const withPostEditing = (WrappedComponent: any) => {
   return () => {
     const { postId } = useParams();
+
+    const navigate = useNavigate();
 
     const [show, setShow] = useState(false);
 
@@ -38,6 +40,7 @@ const withPostEditing = (WrappedComponent: any) => {
           values
         );
         console.log(data);
+        navigate(`/posts/${data._id}`);
       } catch (err) {
         console.log(err);
       }
@@ -47,6 +50,7 @@ const withPostEditing = (WrappedComponent: any) => {
       try {
         const { data } = await axios.delete(`${apiDomain()}/posts/${postId}`);
         console.log(data);
+        navigate("/posts");
       } catch (err) {
         console.log(err);
       }
@@ -75,13 +79,15 @@ const withPostEditing = (WrappedComponent: any) => {
 
     const deleteButton = (
       <Button
-        variant="outlined"
-        color="error"
+        variant="contained"
+        color="warning"
         sx={{
           width: "100%",
           marginTop: "1rem",
-          paddingTop: "0.5rem",
-          paddingBottom: "0.5rem",
+          paddingTop: "0.6rem",
+          paddingBottom: "0.6rem",
+          textDecoration: "none",
+          borderRadius: "8px",
         }}
         onClick={() => setShow(true)}
       >

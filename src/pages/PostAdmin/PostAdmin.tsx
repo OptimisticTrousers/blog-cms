@@ -32,6 +32,7 @@ import { FetchCategories, FetchTags, Post, UserPost } from "../../atoms";
 import Error from "../../components/Error/Error";
 import axios from "axios";
 import { Form } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 interface handleEditFn {
   (values: FormData): Promise<void>;
 }
@@ -57,6 +58,8 @@ const PostAdmin: FC<Props> = ({
   const updatedAtRef = useRef(null);
   const createdAtRef = useRef(null);
   const imageRef = useRef(null);
+
+  const navigate = useNavigate();
 
   const {
     loading: categoriesLoading,
@@ -108,8 +111,10 @@ const PostAdmin: FC<Props> = ({
 
   const handleCreatePost = async (values: FormData) => {
     try {
-      const { data } = await axios.post(`${apiDomain()}/posts`, values);
-      console.log(data);
+      const {
+        data: { post },
+      } = await axios.post(`${apiDomain()}/posts`, values);
+      navigate(`/posts/${post._id}`);
     } catch (err) {
       console.log(err);
     }
@@ -158,23 +163,23 @@ const PostAdmin: FC<Props> = ({
     const nativeEvent = event.nativeEvent as SubmitEvent;
     const submitter = nativeEvent.submitter as HTMLButtonElement;
 
-    const post = new FormData();
-    post.append("title", titleElement.value);
-    post.append("createdAt", new Date(createdAtElement.value).toString());
-    post.append("updatedAt", new Date(updatedAtElement.value).toString());
-    post.append("contentHtml", editorRef.current?.getContent()!);
-    post.append("published", submitter.name);
-    post.append("caption", captionElement.value);
-    post.append("category", categoryId!);
-    post.append("tags", tagIds.toString());
+    const userPost = new FormData();
+    userPost.append("title", titleElement.value);
+    userPost.append("createdAt", new Date(createdAtElement.value).toString());
+    userPost.append("updatedAt", new Date(updatedAtElement.value).toString());
+    userPost.append("contentHtml", editorRef.current?.getContent()!);
+    userPost.append("published", submitter.name);
+    userPost.append("caption", captionElement.value);
+    userPost.append("category", categoryId!);
+    userPost.append("tags", tagIds.toString());
     if (imageElement?.files?.[0]) {
-      post.append("image", imageElement.files[0]);
+      userPost.append("image", imageElement.files[0]);
     }
 
     if (handleEditPost) {
-      handleEditPost(post);
+      handleEditPost(userPost);
     } else {
-      handleCreatePost(post);
+      handleCreatePost(userPost);
     }
   };
 

@@ -1,9 +1,9 @@
 import { DeleteIcon } from "@chakra-ui/icons";
-import { Button, Grid, Heading, Stack } from "@chakra-ui/react";
+import { Grid, Heading, Stack } from "@chakra-ui/react";
 import { Loader } from "@mantine/core";
 import axios from "axios";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { FetchCategory, Post, UserCategory } from "../../atoms";
 import useFetch from "../../hooks/useFetch";
 import { apiDomain } from "../../utils";
@@ -11,10 +11,14 @@ import Error from "../../components/Error/Error";
 import CategoryAdmin from "../CategoriesAdmin/CategoriesAdmin";
 import DeleteModal from "../../components/DeleteModal/DeleteModal";
 import PostCard from "../../components/PostCard/PostCard";
+import { Button } from "@mui/material";
+import { borderRadius } from "@mui/system";
 
 const withCategoryEditing = (WrappedComponent: any) => {
   return () => {
     const { categoryId } = useParams();
+
+    const navigate = useNavigate();
 
     const [show, setShow] = useState(false);
 
@@ -40,6 +44,7 @@ const withCategoryEditing = (WrappedComponent: any) => {
           values
         );
         console.log(data);
+        navigate(`/categories/${data._id}`);
       } catch (err) {
         console.log(err);
       }
@@ -51,6 +56,7 @@ const withCategoryEditing = (WrappedComponent: any) => {
           `${apiDomain()}/categories/${categoryId}`
         );
         console.log(data);
+        navigate("/categories");
       } catch (err) {
         console.log(err);
       }
@@ -58,12 +64,17 @@ const withCategoryEditing = (WrappedComponent: any) => {
 
     const deleteButton = (
       <Button
-        colorScheme={"red"}
-        leftIcon={<DeleteIcon />}
-        width="100%"
-        borderRadius={8}
+        variant="contained"
+        color="warning"
+        sx={{
+          width: "100%",
+          marginTop: "1rem",
+          paddingTop: "0.6rem",
+          paddingBottom: "0.6rem",
+          textDecoration: "none",
+          borderRadius: "8px",
+        }}
         onClick={() => setShow(true)}
-        marginTop={"1rem"}
       >
         Delete
       </Button>

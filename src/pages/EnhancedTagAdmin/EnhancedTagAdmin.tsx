@@ -2,7 +2,7 @@ import { Grid, Heading, Stack } from "@chakra-ui/react";
 import { Loader } from "@mantine/core";
 import axios from "axios";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { FetchTag, Post, UserTag } from "../../atoms";
 import useFetch from "../../hooks/useFetch";
 import TagAdmin from "../TagAdmin/TagAdmin";
@@ -15,6 +15,8 @@ import { Button } from "@mui/material";
 const withTagEditing = (WrappedComponent: any) => {
   return () => {
     const { tagId } = useParams();
+
+    const navigate = useNavigate();
 
     const [show, setShow] = useState(false);
 
@@ -41,6 +43,7 @@ const withTagEditing = (WrappedComponent: any) => {
           values
         );
         console.log(data);
+        navigate(`/tags/${data._id}`);
       } catch (err) {
         console.log(err);
       }
@@ -50,6 +53,7 @@ const withTagEditing = (WrappedComponent: any) => {
       try {
         const { data } = await axios.delete(`${apiDomain()}/tags/${tagId}`);
         console.log(data);
+        navigate("/tags");
       } catch (err) {
         console.log(err);
       }

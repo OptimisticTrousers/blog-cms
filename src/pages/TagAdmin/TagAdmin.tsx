@@ -6,6 +6,7 @@ import { Tag, UserTag } from "../../atoms";
 import { apiDomain } from "../../utils";
 import { Button } from "@chakra-ui/react";
 import { Form } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 interface handleEditFn {
   (values: UserTag): Promise<void>;
@@ -17,10 +18,14 @@ interface Props {
 }
 
 const TagAdmin: FC<Props> = ({ tag, deleteButton, handleEditTag }) => {
+  const navigate = useNavigate();
+
   const handleCreateTag = async (values: UserTag) => {
     try {
-      const { data } = await axios.post(`${apiDomain()}/tags`, values);
-      console.log(data);
+      const {
+        data: { tag },
+      } = await axios.post(`${apiDomain()}/tags`, values);
+      navigate(`/tags/${tag._id.toString()}`);
     } catch (err) {
       console.log(err);
     }
@@ -33,12 +38,12 @@ const TagAdmin: FC<Props> = ({ tag, deleteButton, handleEditTag }) => {
       "name"
     ) as HTMLInputElement;
 
-    const tag = { name: nameElement.value };
+    const userTag = { name: nameElement.value };
 
     if (handleEditTag) {
-      handleEditTag(tag);
+      handleEditTag(userTag);
     } else {
-      handleCreateTag(tag);
+      handleCreateTag(userTag);
     }
   };
 

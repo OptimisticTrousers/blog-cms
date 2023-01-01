@@ -3,6 +3,7 @@ import { TextField } from "@mui/joy";
 import axios from "axios";
 import { FC, FormEvent, ReactNode } from "react";
 import { Form } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import { Category, UserCategory, UserTag } from "../../atoms";
 import { apiDomain } from "../../utils";
 
@@ -20,10 +21,14 @@ const CategoriesAdmin: FC<Props> = ({
   deleteButton,
   handleEditCategory,
 }) => {
+  const navigate = useNavigate();
+
   const handleCreateCategory = async (values: UserCategory) => {
     try {
-      const { data } = await axios.post(`${apiDomain()}/categories`, values);
-      console.log(data);
+      const {
+        data: { category },
+      } = await axios.post(`${apiDomain()}/categories`, values);
+      navigate(`/categories/${category._id}`);
     } catch (err) {
       console.log(err);
     }
