@@ -51,13 +51,6 @@ const PostAdmin: FC<Props> = ({
   handleEditPost,
 }) => {
   const editorRef = useRef<TinyMCEEditor | null>(null);
-  const titleRef = useRef(null);
-  const categoryRef = useRef(null);
-  const tagRef = useRef(null);
-  const captionRef = useRef(null);
-  const updatedAtRef = useRef(null);
-  const createdAtRef = useRef(null);
-  const imageRef = useRef(null);
 
   const navigate = useNavigate();
 
@@ -192,7 +185,6 @@ const PostAdmin: FC<Props> = ({
           placeholder="Post Title"
           name="title"
           sx={{ width: "100%" }}
-          ref={titleRef}
           defaultValue={post?.title}
           required
         />
@@ -303,7 +295,7 @@ const PostAdmin: FC<Props> = ({
               >
                 Upload image*
               </Text>
-              <Form.Control type="file" ref={imageRef} name="image" required />
+              <Form.Control type="file" name="image" required />
             </Stack>
             <Stack direction="row" marginTop={"1rem"}>
               <Text
@@ -315,7 +307,6 @@ const PostAdmin: FC<Props> = ({
                 Caption
               </Text>
               <Form.Control
-                ref={captionRef}
                 name="caption"
                 defaultValue={post?.caption}
                 required
@@ -332,7 +323,6 @@ const PostAdmin: FC<Props> = ({
               placeholder="Pick date"
               label="Post creation date"
               withAsterisk
-              ref={createdAtRef}
               name="createdAt"
               defaultValue={
                 post?.createdAt ? new Date(post.createdAt) : new Date()
@@ -343,7 +333,6 @@ const PostAdmin: FC<Props> = ({
               placeholder="Pick date"
               label="Post update date"
               withAsterisk
-              ref={updatedAtRef}
               name="updatedAt"
               defaultValue={
                 post?.updatedAt ? new Date(post.updatedAt) : new Date()
@@ -366,7 +355,6 @@ const PostAdmin: FC<Props> = ({
               placeholder="Pick relevant categories"
               withAsterisk
               name="category"
-              ref={categoryRef}
               required
             />
             <MultiSelect
@@ -377,7 +365,6 @@ const PostAdmin: FC<Props> = ({
               withAsterisk
               name="tags"
               defaultValue={currentTags}
-              ref={tagRef}
               required
             />
             {deleteButton}
