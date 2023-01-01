@@ -85,7 +85,9 @@ const withTagEditing = (WrappedComponent: any) => {
         />
         <Stack>
           <Heading size={"xl"} textAlign={"center"} marginTop={"1rem"}>
-            Posts associated with: {tag.name}
+            {posts.length
+              ? `Posts associated with: ${tag.name}`
+              : `No posts associated with: ${tag.name}`}
           </Heading>
           <Grid
             templateColumns={"repeat(auto-fit, 350px)"}

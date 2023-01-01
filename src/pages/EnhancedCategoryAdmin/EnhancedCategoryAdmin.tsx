@@ -89,7 +89,9 @@ const withCategoryEditing = (WrappedComponent: any) => {
         />{" "}
         <Stack>
           <Heading size={"xl"} textAlign={"center"} marginTop={"1rem"}>
-            Posts associated with: {category.name}
+            {posts.length
+              ? `Posts associated with: ${category.name}`
+              : `No posts associated with: ${category.name}`}
           </Heading>
           <Grid
             templateColumns={"repeat(auto-fit, 300px)"}
