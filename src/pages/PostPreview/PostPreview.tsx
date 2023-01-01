@@ -25,11 +25,21 @@ const PostPreview = () => {
     return <Error error={error} />;
   }
 
-  const { title, createdAt, updatedAt, contentHtml } = value!.post;
+  const { title, image, caption, createdAt, updatedAt, contentHtml } =
+    value!.post;
 
   return (
     <article styleName="preview">
       <h2 styleName="preview__title">{title}</h2>
+      <figure styleName="preview__container">
+        <img
+          styleName="preview__image"
+          src={`${apiDomain()}/images/${image.filename}`}
+          width="100%"
+          alt={title}
+        />
+        <figcaption styleName="preview__caption">{caption}</figcaption>
+      </figure>
       <hr />
       <p styleName="preview__date">
         <BsCalendar3 />

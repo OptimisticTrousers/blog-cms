@@ -5,6 +5,18 @@
   font-size: 1.2rem;
 }
 
+.preview__container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.preview__caption {
+  color: #f1f1f1;
+  margin-top: 1rem;
+}
+
 .preview__title {
   margin-bottom: 0.5rem;
   line-height: initial;
@@ -22,5 +34,5 @@
 }
 
 .preview__bold {
-    font-weight: 600;
+  font-weight: 600;
 }
