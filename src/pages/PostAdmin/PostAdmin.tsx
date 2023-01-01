@@ -197,25 +197,27 @@ const PostAdmin: FC<Props> = ({
           required
         />
         <Box>{previewButton}</Box>
-        <Menu>
-          <MenuButton
-            as={Button}
-            rightIcon={<ChevronDownIcon />}
-            bgColor="#3f87e5"
-            color="white"
-            borderRadius={8}
-          >
-            Save
-          </MenuButton>
-          <MenuList>
-            <MenuItem name="published" type="submit">
-              Save as published
-            </MenuItem>
-            <MenuItem name="unpublished" type="submit">
-              Save as unpublished
-            </MenuItem>
-          </MenuList>
-        </Menu>
+        <Box>
+          <Menu>
+            <MenuButton
+              as={Button}
+              rightIcon={<ChevronDownIcon />}
+              bgColor="#3f87e5"
+              color="white"
+              borderRadius={8}
+            >
+              Save
+            </MenuButton>
+            <MenuList>
+              <MenuItem name="published" type="submit">
+                Save as published
+              </MenuItem>
+              <MenuItem name="unpublished" type="submit">
+                Save as unpublished
+              </MenuItem>
+            </MenuList>
+          </Menu>
+        </Box>
       </Stack>
       <Grid
         templateColumns="3fr 1fr"
