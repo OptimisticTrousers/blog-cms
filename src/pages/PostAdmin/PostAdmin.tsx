@@ -1,65 +1,46 @@
-import React, { FC, useRef, useContext, useEffect, useState } from "react";
+import {
+  FC,
+  useRef,
+  ReactNode,
+  FormEvent,
+  HTMLInputTypeAttribute,
+  SyntheticEvent,
+} from "react";
 import {
   Box,
   Button,
-  Input,
   Stack,
   Menu,
   MenuButton,
   MenuList,
   MenuItem,
-  SimpleGrid,
   Heading,
   Grid,
   GridItem,
-  FormControl,
-  FormLabel,
   Image,
   Text,
 } from "@chakra-ui/react";
-import {
-  ViewIcon,
-  ChevronDownIcon,
-  DeleteIcon,
-  EditIcon,
-} from "@chakra-ui/icons";
+import { ChevronDownIcon } from "@chakra-ui/icons";
 import { Editor } from "@tinymce/tinymce-react";
 import { Editor as TinyMCEEditor } from "tinymce";
 import useFetch from "../../hooks/useFetch";
-import { Link, useParams } from "react-router-dom";
-import Comment from "../../components/Comment/Comment";
-import Autocomplete from "@mui/joy/Autocomplete";
 import { Loader, MultiSelect, NativeSelect } from "@mantine/core";
 import { DatePicker } from "@mantine/dates";
 import { TextField } from "@mui/joy";
 import { apiDomain } from "../../utils";
-import {
-  FetchCategories,
-  FetchPost,
-  FetchTags,
-  Post,
-  UserPost,
-} from "../../atoms";
+import { FetchCategories, FetchTags, Post, UserPost } from "../../atoms";
 import Error from "../../components/Error/Error";
 import axios from "axios";
-import EnhancedCategoryAdmin from "../EnhancedCategoryAdmin/EnhancedCategoryAdmin";
 import { Form } from "react-bootstrap";
-
-const data = [
-  { value: "react", label: "React" },
-  { value: "ng", label: "Angular" },
-  { value: "svelte", label: "Svelte" },
-  { value: "vue", label: "Vue" },
-  { value: "riot", label: "Riot" },
-  { value: "next", label: "Next.js" },
-  { value: "blitz", label: "Blitz.js" },
-];
+interface handleEditFn {
+  (values: FormData): Promise<void>;
+}
 
 interface Props {
   post?: Post;
-  deleteButton?: HTMLButtonElement;
-  previewButton?: HTMLButtonElement;
-  handleEditPost?: any;
+  deleteButton?: ReactNode;
+  previewButton?: ReactNode;
+  handleEditPost?: handleEditFn;
 }
 
 const PostAdmin: FC<Props> = ({
@@ -125,8 +106,7 @@ const PostAdmin: FC<Props> = ({
     .filter((tag) => post?.tags.includes(tag._id))
     .map((tag) => tag.name);
 
-  const handleCreatePost = async (values: any) => {
-    console.log(values.values());
+  const handleCreatePost = async (values: FormData) => {
     try {
       const { data } = await axios.post(`${apiDomain()}/posts`, values);
       console.log(data);
@@ -135,61 +115,61 @@ const PostAdmin: FC<Props> = ({
     }
   };
 
-  const handleSubmit = (event: any) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    console.log(event.currentTarget.elements);
+    const titleElement = event.currentTarget.elements.namedItem(
+      "title"
+    ) as HTMLInputElement;
+    const createdAtElement = event.currentTarget.elements.namedItem(
+      "createdAt"
+    ) as HTMLInputElement;
+    const updatedAtElement = event.currentTarget.elements.namedItem(
+      "updatedAt"
+    ) as HTMLInputElement;
+    const imageElement = event.currentTarget.elements.namedItem(
+      "image"
+    ) as HTMLInputElement;
+    const categoryElement = event.currentTarget.elements.namedItem(
+      "category"
+    ) as HTMLSelectElement;
+    const captionElement = event.currentTarget.elements.namedItem(
+      "caption"
+    ) as HTMLInputElement;
+    const tagsElement = event.currentTarget.elements.namedItem(
+      "tags"
+    ) as HTMLSelectElement;
 
-    const {
-      title,
-      createdAt,
-      updatedAt,
-      image,
-      category,
-      caption,
-      tags: userTags,
-    } = event.currentTarget.elements;
+    if (!editorRef.current?.getContent()) {
+      alert("Please enter content");
+      return;
+    }
 
     const categoryId = categories.find(
-      (element) => element.value === category.value
-    )._id;
+      (element) => element.value === categoryElement.value
+    )?._id;
 
     const filteredTags = tags.filter((element) =>
-      userTags.value.split(",").includes(element.value)
+      tagsElement.value.split(",").includes(element.value)
     );
 
     const tagIds = filteredTags.map((element) => element._id);
 
-    console.log(tagIds);
-
-    console.log(image.files[0]);
-
-    // const post = {
-    //   title: title.value,
-    //   createdAt: new Date(createdAt.value),
-    //   updatedAt: new Date(updatedAt.value),
-    //   contentHtml: editorRef.current?.getContent(),
-    //   published: event.nativeEvent.submitter.name,
-    //   caption: caption.value,
-    //   image: image.files[0],
-    //   category: categoryId,
-    //   tags: tagIds,
-    // };
+    const nativeEvent = event.nativeEvent as SubmitEvent;
+    const submitter = nativeEvent.submitter as HTMLButtonElement;
 
     const post = new FormData();
-    post.append("title", title.value);
-    post.append("createdAt", new Date(createdAt.value));
-    post.append("updatedAt", new Date(updatedAt.value));
-    post.append("contentHtml", editorRef.current?.getContent());
-    post.append("published", event.nativeEvent.submitter.name);
-    post.append("caption", caption.value);
-    post.append("category", categoryId);
-    post.append("tags", tagIds);
-    post.append("image", image.files[0]);
-
-    // for (const value of post.values()) {
-    //   console.log(value)
-    // }
+    post.append("title", titleElement.value);
+    post.append("createdAt", new Date(createdAtElement.value).toString());
+    post.append("updatedAt", new Date(updatedAtElement.value).toString());
+    post.append("contentHtml", editorRef.current?.getContent()!);
+    post.append("published", submitter.name);
+    post.append("caption", captionElement.value);
+    post.append("category", categoryId!);
+    post.append("tags", tagIds.toString());
+    if (imageElement?.files?.[0]) {
+      post.append("image", imageElement.files[0]);
+    }
 
     if (handleEditPost) {
       handleEditPost(post);
@@ -198,10 +178,8 @@ const PostAdmin: FC<Props> = ({
     }
   };
 
-  console.log(post);
-
   return (
-    <Form onSubmit={handleSubmit} encType="multipart/form-data" >
+    <Form onSubmit={handleSubmit} encType="multipart/form-data">
       <Stack direction="row" marginBottom={40} alignItems={"center"}>
         <TextField
           size="lg"
@@ -210,6 +188,7 @@ const PostAdmin: FC<Props> = ({
           sx={{ width: "100%" }}
           ref={titleRef}
           defaultValue={post?.title}
+          required
         />
         <Box>{previewButton}</Box>
         <Menu>
@@ -263,7 +242,6 @@ const PostAdmin: FC<Props> = ({
             <Editor
               onInit={(evt, editor) => (editorRef.current = editor)}
               apiKey={import.meta.env.TINY_API_KEY}
-              name="contentHtml"
               initialValue={post?.contentHtml ?? "<p>Bob Jones is great!</p>"}
               init={{
                 height: 500,
@@ -294,21 +272,15 @@ const PostAdmin: FC<Props> = ({
               Image
             </Text>
             <Stack direction="row">
-              {/* <Text
-                color="#78879c"
-                whiteSpace={"nowrap"}
-                paddingRight={"1rem"}
-                margin={"auto"}
-              >
-                Existing Image*
-              </Text> */}
-             {post?.image && <Image
-                src={`${apiDomain()}/images/${post?.image.filename}`}
-                crossOrigin="anonymous"
-                boxSize="100%"
-                objectFit={"cover"}
-                marginBottom={"2rem"}
-              />}
+              {post?.image && (
+                <Image
+                  src={`${apiDomain()}/images/${post?.image.filename}`}
+                  crossOrigin="anonymous"
+                  boxSize="100%"
+                  objectFit={"cover"}
+                  marginBottom={"2rem"}
+                />
+              )}
             </Stack>
             <Stack direction="row">
               <Text
@@ -319,7 +291,7 @@ const PostAdmin: FC<Props> = ({
               >
                 Upload image*
               </Text>
-              <Form.Control type="file" ref={imageRef} name="image" />
+              <Form.Control type="file" ref={imageRef} name="image" required />
             </Stack>
             <Stack direction="row" marginTop={"1rem"}>
               <Text
@@ -334,6 +306,7 @@ const PostAdmin: FC<Props> = ({
                 ref={captionRef}
                 name="caption"
                 defaultValue={post?.caption}
+                required
               />
             </Stack>
           </Box>
@@ -349,6 +322,7 @@ const PostAdmin: FC<Props> = ({
               defaultValue={
                 post?.createdAt ? new Date(post.createdAt) : new Date()
               }
+              required
             />
             <DatePicker
               placeholder="Pick date"
@@ -359,6 +333,7 @@ const PostAdmin: FC<Props> = ({
               defaultValue={
                 post?.updatedAt ? new Date(post.updatedAt) : new Date()
               }
+              required
               mt={12}
             />
             <Text fontSize={"1rem"} textAlign={"start"} marginTop={"1rem"}>
@@ -377,6 +352,7 @@ const PostAdmin: FC<Props> = ({
               withAsterisk
               name="category"
               ref={categoryRef}
+              required
             />
             <MultiSelect
               data={tags}
@@ -387,6 +363,7 @@ const PostAdmin: FC<Props> = ({
               name="tags"
               defaultValue={currentTags}
               ref={tagRef}
+              required
             />
             {deleteButton}
           </Box>

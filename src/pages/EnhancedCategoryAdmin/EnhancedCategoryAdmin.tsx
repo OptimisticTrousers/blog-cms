@@ -4,7 +4,7 @@ import { Loader } from "@mantine/core";
 import axios from "axios";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import { FetchCategory, UserCategory } from "../../atoms";
+import { FetchCategory, Post, UserCategory } from "../../atoms";
 import useFetch from "../../hooks/useFetch";
 import { apiDomain } from "../../utils";
 import Error from "../../components/Error/Error";
@@ -80,8 +80,12 @@ const withCategoryEditing = (WrappedComponent: any) => {
           <Heading size={"xl"} textAlign={"center"} marginTop={"1rem"}>
             Posts associated with: {category.name}
           </Heading>
-          <Grid templateColumns={"repeat(auto-fit, 300px)"} gap={32}>
-            {posts.map((post: any) => {
+          <Grid
+            templateColumns={"repeat(auto-fit, 300px)"}
+            gap={32}
+            justifyContent={"center"}
+          >
+            {posts.map((post: Post) => {
               return <PostCard {...post} />;
             })}
           </Grid>

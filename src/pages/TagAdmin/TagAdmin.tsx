@@ -54,6 +54,7 @@ const TagAdmin: FC<Props> = ({ tag, deleteButton, handleEditTag }) => {
           sx={{ width: "100%", marginTop: "1rem" }}
           defaultValue={tag && tag.name}
           name="name"
+          required
         />
         <Button
           color="white"

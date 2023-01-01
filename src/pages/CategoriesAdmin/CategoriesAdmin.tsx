@@ -57,6 +57,7 @@ const CategoriesAdmin: FC<Props> = ({
         placeholder="Category Title"
         sx={{ width: "100%", marginTop: "1rem" }}
         defaultValue={category && category.name}
+        required
       />
       <Button
         color="white"
