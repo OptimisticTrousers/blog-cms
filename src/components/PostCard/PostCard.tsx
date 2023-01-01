@@ -7,12 +7,15 @@ import Date from "../Date/Date";
 import parse from "html-react-parser";
 import optimistictrousers from "../../assets/images/optimistictrousers.jpg";
 import { Link } from "react-router-dom";
+import { Image } from "@chakra-ui/react";
+import { apiDomain } from "../../utils";
 
 const PostCard: FC<Post> = ({
   _id,
   title,
   published,
   createdAt,
+  image,
   updatedAt,
   contentHtml,
 }) => {
@@ -25,13 +28,22 @@ const PostCard: FC<Post> = ({
       >
         {published ? "PUBLISHED" : "UNPUBLISHED"}
       </p>
-      <img
-        styleName="card__image"
-        alt="stuff"
-        src={optimistictrousers}
-        width={400}
-        height={400}
-      />
+      {image ? (
+        <Image
+          src={`${apiDomain()}/images/${image.filename}`}
+          crossOrigin="anonymous"
+          boxSize="100%"
+          objectFit={"contain"}
+          marginBottom={"2rem"}
+        />
+      ) : (
+        <Image
+          src={optimistictrousers}
+          boxSize="100%"
+          objectFit={"contain"}
+          marginBottom={"2rem"}
+        />
+      )}
       <div styleName="card__content">
         <span styleName="card__date">
           <BsCalendar3 />

@@ -40,7 +40,7 @@ export interface Comment {
 export interface FetchTag {
   loading: boolean | undefined;
   error: string | undefined;
-  value: { tag: Tag } | undefined;
+  value: { tag: Tag, posts: Post[] } | undefined;
 }
 
 export interface FetchTags {

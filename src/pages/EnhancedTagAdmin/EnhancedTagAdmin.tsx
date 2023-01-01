@@ -1,16 +1,16 @@
-import { DeleteIcon } from "@chakra-ui/icons";
-import { Button, Grid, Heading, Stack, useDisclosure, Wrap } from "@chakra-ui/react";
+import { Grid, Heading, Stack } from "@chakra-ui/react";
 import { Loader } from "@mantine/core";
 import axios from "axios";
-import React, { useState } from "react";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
-import { FetchTag, UserTag } from "../../atoms";
+import { FetchTag, Post, UserTag } from "../../atoms";
 import useFetch from "../../hooks/useFetch";
 import TagAdmin from "../TagAdmin/TagAdmin";
 import { apiDomain } from "../../utils";
 import Error from "../../components/Error/Error";
 import DeleteModal from "../../components/DeleteModal/DeleteModal";
 import PostCard from "../../components/PostCard/PostCard";
+import { Button } from "@mui/material";
 
 const withTagEditing = (WrappedComponent: any) => {
   return () => {
@@ -32,8 +32,7 @@ const withTagEditing = (WrappedComponent: any) => {
 
     const tag = value!.tag;
 
-    const posts = value!.posts
-    console.log(posts)
+    const posts = value!.posts;
 
     const handleEditTag = async (values: UserTag) => {
       try {
@@ -58,12 +57,17 @@ const withTagEditing = (WrappedComponent: any) => {
 
     const deleteButton = (
       <Button
-        colorScheme={"red"}
-        leftIcon={<DeleteIcon />}
-        width="100%"
-        borderRadius={8}
+        variant="contained"
+        color="warning"
+        sx={{
+          width: "100%",
+          paddingTop: "0.6rem",
+          paddingBottom: "0.6rem",
+          textDecoration: "none",
+          marginTop: "1rem",
+          borderRadius: "8px",
+        }}
         onClick={() => setShow(true)}
-        marginTop={"1rem"}
       >
         Delete
       </Button>
@@ -80,8 +84,12 @@ const withTagEditing = (WrappedComponent: any) => {
           <Heading size={"xl"} textAlign={"center"} marginTop={"1rem"}>
             Posts associated with: {tag.name}
           </Heading>
-          <Grid templateColumns={"repeat(auto-fit, 400px)"} gap={32}>
-            {posts.map((post: any) => {
+          <Grid
+            templateColumns={"repeat(auto-fit, 350px)"}
+            gap={32}
+            justifyContent={"center"}
+          >
+            {posts.map((post: Post) => {
               return <PostCard {...post} />;
             })}
           </Grid>

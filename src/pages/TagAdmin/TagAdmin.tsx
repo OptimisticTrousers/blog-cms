@@ -1,18 +1,19 @@
-import { Box, MenuButton, Heading } from "@chakra-ui/react";
+import { Box, Heading } from "@chakra-ui/react";
 import { TextField } from "@mui/joy";
 import axios from "axios";
-import React, { FC, useRef } from "react";
-import CSSModules from "react-css-modules";
+import { FC, FormEvent, useRef } from "react";
 import { Tag, UserTag } from "../../atoms";
 import { apiDomain } from "../../utils";
-import styles from "./TagAdmin.module.css";
 import { Button } from "@chakra-ui/react";
 import { Form } from "react-bootstrap";
 
+interface handleEditFn {
+  (values: Tag): Promise<void>;
+}
 interface Props {
   tag?: Tag;
-  deleteButton?: any;
-  handleEditTag?: any;
+  deleteButton?: HTMLButtonElement;
+  handleEditTag?: handleEditFn;
 }
 
 const TagAdmin: FC<Props> = ({ tag, deleteButton, handleEditTag }) => {
@@ -27,7 +28,7 @@ const TagAdmin: FC<Props> = ({ tag, deleteButton, handleEditTag }) => {
     }
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const name = nameRef.current.children[0].children[0].value;
 
@@ -42,31 +43,34 @@ const TagAdmin: FC<Props> = ({ tag, deleteButton, handleEditTag }) => {
 
   return (
     <Form onSubmit={handleSubmit}>
-      <Heading size={"xl"} textAlign={"center"}>
-        {tag ? `Update tag: ${tag._id}` : "Create a New Tag"}
-      </Heading>
-      <TextField
-        size="lg"
-        placeholder="Tag Title"
-        sx={{ width: "100%", marginTop: "1rem" }}
-        ref={nameRef}
-        defaultValue={tag && tag.name}
-      />
-      <Button
-        color="white"
-        bgColor="#3f87e5"
-        borderRadius={8}
-        width={"100%"}
-        marginTop={"1rem"}
-        type="submit"
-      >
-        SAVE
-      </Button>
+      <Box>
+        <Heading size={"xl"} textAlign={"center"}>
+          {tag ? `Update tag: ${tag._id}` : "Create a New Tag"}
+        </Heading>
+        <TextField
+          size="lg"
+          placeholder="Tag Title"
+          sx={{ width: "100%", marginTop: "1rem" }}
+          ref={nameRef}
+          defaultValue={tag && tag.name}
+        />
+        <Button
+          color="white"
+          bgColor="#3f87e5"
+          borderRadius={8}
+          width={"100%"}
+          marginTop={"1rem"}
+          type="submit"
+        >
+          SAVE
+        </Button>
+        <Box>
+
+        {deleteButton}
+        </Box>
+      </Box>
     </Form>
   );
 };
 
-export default CSSModules(TagAdmin, styles, {
-  allowMultiple: true,
-  handleNotFoundStyleName: "log",
-});
+export default TagAdmin;

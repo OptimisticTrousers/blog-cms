@@ -3,15 +3,15 @@ import "./App.css";
 import NavigationBar from "./components/NavigationBar/NavigationBar";
 import { Outlet } from "react-router-dom";
 
-function App() {
+const App = () => {
   return (
     <>
-      <NavigationBar/>
+      <NavigationBar />
       <main>
         <Outlet />
       </main>
     </>
   );
-}
+};
 
 export default App;

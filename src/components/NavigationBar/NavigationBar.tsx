@@ -6,7 +6,7 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Offcanvas from "react-bootstrap/Offcanvas";
 
-function NavigationBar() {
+const NavigationBar = () => {
   return (
     <Navbar bg="light" expand="sm" className="mb-3">
       <Container fluid>
@@ -64,6 +64,6 @@ function NavigationBar() {
       </Container>
     </Navbar>
   );
-}
+};
 
 export default NavigationBar;
