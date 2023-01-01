@@ -17,8 +17,6 @@ interface Props {
 }
 
 const TagAdmin: FC<Props> = ({ tag, deleteButton, handleEditTag }) => {
-  const nameRef = useRef(null);
-
   const handleCreateTag = async (values: UserTag) => {
     try {
       const { data } = await axios.post(`${apiDomain()}/tags`, values);
@@ -30,7 +28,8 @@ const TagAdmin: FC<Props> = ({ tag, deleteButton, handleEditTag }) => {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const name = nameRef.current.children[0].children[0].value;
+
+    const { name } = event.currentTarget.elements;
 
     const tag = { name };
 
@@ -51,8 +50,8 @@ const TagAdmin: FC<Props> = ({ tag, deleteButton, handleEditTag }) => {
           size="lg"
           placeholder="Tag Title"
           sx={{ width: "100%", marginTop: "1rem" }}
-          ref={nameRef}
           defaultValue={tag && tag.name}
+          name="name"
         />
         <Button
           color="white"
@@ -64,10 +63,7 @@ const TagAdmin: FC<Props> = ({ tag, deleteButton, handleEditTag }) => {
         >
           SAVE
         </Button>
-        <Box>
-
-        {deleteButton}
-        </Box>
+        <Box>{deleteButton}</Box>
       </Box>
     </Form>
   );

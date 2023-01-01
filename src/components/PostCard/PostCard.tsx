@@ -32,16 +32,14 @@ const PostCard: FC<Post> = ({
         <Image
           src={`${apiDomain()}/images/${image.filename}`}
           crossOrigin="anonymous"
-          boxSize="100%"
+          boxSize="300px"
           objectFit={"contain"}
-          marginBottom={"2rem"}
         />
       ) : (
         <Image
           src={optimistictrousers}
-          boxSize="100%"
+          boxSize="300px"
           objectFit={"contain"}
-          marginBottom={"2rem"}
         />
       )}
       <div styleName="card__content">
