@@ -17,7 +17,7 @@ const Home = () => {
       </p>
       <div styleName="home__container">
         <p styleName="home__try">Try Now!</p>
-        <Link to="/posts">View Posts</Link>
+        <Link to="/posts/create">Create a post!</Link>
       </div>
     </section>
   );
