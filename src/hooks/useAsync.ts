@@ -1,7 +1,8 @@
-import { useCallback, useEffect, useState } from "react";
+import { SetStateAction, useCallback, useEffect, useState } from "react";
 
 interface Callback {
   (): Promise<any>;
+  (): Promise<SetStateAction<undefined>>;
 }
 
 const useAsync = (callback: Callback, dependencies = []) => {
