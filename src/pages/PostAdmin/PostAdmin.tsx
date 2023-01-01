@@ -217,7 +217,15 @@ const PostAdmin: FC<Props> = ({
           </MenuList>
         </Menu>
       </Stack>
-      <Grid templateColumns="3fr 1fr" gap={24}>
+      <Grid
+        templateColumns="3fr 1fr"
+        gap={24}
+        sx={{
+          "@media(max-width: 720px)": {
+            gridTemplateColumns: "1fr",
+          },
+        }}
+      >
         <GridItem
           bg="white"
           boxShadow="md"
@@ -314,7 +322,10 @@ const PostAdmin: FC<Props> = ({
           </Box>
         </GridItem>
         <GridItem>
-          <Box>
+          <Heading size={"xl"} textAlign={"center"}>
+            Attributes
+          </Heading>
+          <Box marginTop={"3rem"}>
             <DatePicker
               placeholder="Pick date"
               label="Post creation date"
