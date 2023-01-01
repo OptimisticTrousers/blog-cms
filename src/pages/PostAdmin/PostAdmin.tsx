@@ -1,11 +1,4 @@
-import {
-  FC,
-  useRef,
-  ReactNode,
-  FormEvent,
-  HTMLInputTypeAttribute,
-  SyntheticEvent,
-} from "react";
+import { FC, useRef, FormEvent } from "react";
 import {
   Box,
   Button,
@@ -28,23 +21,13 @@ import { Loader, MultiSelect, NativeSelect } from "@mantine/core";
 import { DatePicker } from "@mantine/dates";
 import { TextField } from "@mui/joy";
 import { apiDomain } from "../../utils";
-import { FetchCategories, FetchTags, Post, UserPost } from "../../atoms";
+import { FetchCategories, FetchTags, PostAdminProps } from "../../atoms";
 import Error from "../../components/Error/Error";
 import axios from "axios";
 import { Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-interface handleEditFn {
-  (values: FormData): Promise<void>;
-}
 
-interface Props {
-  post?: Post;
-  deleteButton?: ReactNode;
-  previewButton?: ReactNode;
-  handleEditPost?: handleEditFn;
-}
-
-const PostAdmin: FC<Props> = ({
+const PostAdmin: FC<PostAdminProps> = ({
   post,
   deleteButton,
   previewButton,

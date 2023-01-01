@@ -1,9 +1,9 @@
 import { Grid, Heading, Stack } from "@chakra-ui/react";
 import { Loader } from "@mantine/core";
 import axios from "axios";
-import { useState } from "react";
+import { FunctionComponent, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { FetchTag, Post, UserTag } from "../../atoms";
+import { FetchTag, Post, TagAdminProps, UserTag } from "../../atoms";
 import useFetch from "../../hooks/useFetch";
 import TagAdmin from "../TagAdmin/TagAdmin";
 import { apiDomain } from "../../utils";
@@ -12,7 +12,7 @@ import DeleteModal from "../../components/DeleteModal/DeleteModal";
 import PostCard from "../../components/PostCard/PostCard";
 import { Button } from "@mui/material";
 
-const withTagEditing = (WrappedComponent: any) => {
+const withTagEditing = (WrappedComponent: FunctionComponent<TagAdminProps>) => {
   return () => {
     const { tagId } = useParams();
 

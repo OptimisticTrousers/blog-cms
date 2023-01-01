@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 export interface Post {
   _id: string;
   title: string;
@@ -39,10 +41,41 @@ export interface Comment {
   updatedAt: string;
 }
 
+export interface handleEditTagsFn {
+  (values: UserTag): Promise<void>;
+}
+
+export interface handleEditPostsFn {
+  (values: FormData): Promise<void>;
+}
+
+export interface handleEditCategoriesFn {
+  (values: UserCategory): Promise<void>;
+}
+
+export interface CategoryAdminProps {
+  category?: Category;
+  deleteButton?: ReactNode;
+  handleEditCategory?: handleEditCategoriesFn;
+}
+
+export interface PostAdminProps {
+  post?: Post;
+  deleteButton?: ReactNode;
+  previewButton?: ReactNode;
+  handleEditPost?: handleEditPostsFn;
+}
+
+export interface TagAdminProps {
+  tag?: Tag;
+  deleteButton?: ReactNode;
+  handleEditTag?: handleEditTagsFn;
+}
+
 export interface FetchTag {
   loading: boolean | undefined;
   error: string | undefined;
-  value: { tag: Tag, posts: Post[] } | undefined;
+  value: { tag: Tag; posts: Post[] } | undefined;
 }
 
 export interface FetchTags {
@@ -60,7 +93,7 @@ export interface FetchCategories {
 export interface FetchCategory {
   loading: boolean | undefined;
   error: string | undefined;
-  value: { category: Category, posts: Post[] } | undefined;
+  value: { category: Category; posts: Post[] } | undefined;
 }
 
 export interface FetchPosts {

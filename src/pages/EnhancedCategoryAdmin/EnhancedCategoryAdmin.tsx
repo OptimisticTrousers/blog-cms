@@ -1,20 +1,25 @@
-import { DeleteIcon } from "@chakra-ui/icons";
 import { Grid, Heading, Stack } from "@chakra-ui/react";
 import { Loader } from "@mantine/core";
 import axios from "axios";
-import { useState } from "react";
+import { FunctionComponent, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { FetchCategory, Post, UserCategory } from "../../atoms";
+import {
+  CategoryAdminProps,
+  FetchCategory,
+  Post,
+  UserCategory,
+} from "../../atoms";
 import useFetch from "../../hooks/useFetch";
 import { apiDomain } from "../../utils";
 import Error from "../../components/Error/Error";
-import CategoryAdmin from "../CategoriesAdmin/CategoriesAdmin";
+import CategoryAdmin from "../CategoryAdmin/CategoryAdmin";
 import DeleteModal from "../../components/DeleteModal/DeleteModal";
 import PostCard from "../../components/PostCard/PostCard";
 import { Button } from "@mui/material";
-import { borderRadius } from "@mui/system";
 
-const withCategoryEditing = (WrappedComponent: any) => {
+const withCategoryEditing = (
+  WrappedComponent: FunctionComponent<CategoryAdminProps>
+) => {
   return () => {
     const { categoryId } = useParams();
 

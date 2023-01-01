@@ -1,9 +1,8 @@
-import { useDisclosure } from "@chakra-ui/react";
 import { Loader } from "@mantine/core";
 import axios from "axios";
-import { useState } from "react";
+import { FunctionComponent, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { FetchPost, Post, UserPost } from "../../atoms";
+import { FetchPost, PostAdminProps } from "../../atoms";
 import useFetch from "../../hooks/useFetch";
 import PostAdmin from "../../pages/PostAdmin/PostAdmin";
 import { apiDomain } from "../../utils";
@@ -11,7 +10,9 @@ import Error from "../../components/Error/Error";
 import DeleteModal from "../../components/DeleteModal/DeleteModal";
 import { Button } from "@mui/material";
 
-const withPostEditing = (WrappedComponent: any) => {
+const withPostEditing = (
+  WrappedComponent: FunctionComponent<PostAdminProps>
+) => {
   return () => {
     const { postId } = useParams();
 

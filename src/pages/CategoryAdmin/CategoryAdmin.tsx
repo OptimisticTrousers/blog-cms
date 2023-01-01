@@ -1,22 +1,13 @@
 import { Box, Button, Heading } from "@chakra-ui/react";
 import { TextField } from "@mui/joy";
 import axios from "axios";
-import { FC, FormEvent, ReactNode } from "react";
+import { FC, FormEvent } from "react";
 import { Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { Category, UserCategory, UserTag } from "../../atoms";
+import { UserCategory, CategoryAdminProps } from "../../atoms";
 import { apiDomain } from "../../utils";
 
-interface handleEditFn {
-  (values: UserTag): Promise<void>;
-}
-interface Props {
-  category?: Category;
-  deleteButton?: ReactNode;
-  handleEditCategory?: handleEditFn;
-}
-
-const CategoriesAdmin: FC<Props> = ({
+const CategoriesAdmin: FC<CategoryAdminProps> = ({
   category,
   deleteButton,
   handleEditCategory,

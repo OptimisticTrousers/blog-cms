@@ -2,7 +2,7 @@ import { Box, Heading, Stack } from "@chakra-ui/react";
 import { TextField } from "@mui/joy";
 import axios from "axios";
 import { FC, FormEvent, ReactNode } from "react";
-import { Tag, UserTag } from "../../atoms";
+import { Tag, TagAdminProps, UserTag } from "../../atoms";
 import { apiDomain } from "../../utils";
 import { Button } from "@chakra-ui/react";
 import { Form } from "react-bootstrap";
@@ -17,7 +17,7 @@ interface Props {
   handleEditTag?: handleEditFn;
 }
 
-const TagAdmin: FC<Props> = ({ tag, deleteButton, handleEditTag }) => {
+const TagAdmin: FC<TagAdminProps> = ({ tag, deleteButton, handleEditTag }) => {
   const navigate = useNavigate();
 
   const handleCreateTag = async (values: UserTag) => {

@@ -2,11 +2,8 @@
 import React, { FC } from "react";
 import { Button } from "@mui/material";
 import Modal from "react-bootstrap/Modal";
-import { Post, Tag, Category } from "../../atoms";
+import { Post, Tag, Category, handleDeleteFn } from "../../atoms";
 
-interface handleDeleteFn {
-  (): Promise<void>;
-}
 interface Props {
   show: boolean;
   setShow: React.Dispatch<React.SetStateAction<boolean>>;

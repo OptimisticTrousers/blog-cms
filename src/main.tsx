@@ -11,7 +11,7 @@ import EnhancedPostAdmin from "./pages/EnhancedPostAdmin/EnhancedPostAdmin";
 import Home from "./pages/Home/Home";
 import Categories from "./pages/Categories/Categories";
 import Tags from "./pages/Tags/Tags";
-import CategoryAdmin from "./pages/CategoriesAdmin/CategoriesAdmin";
+import CategoryAdmin from "./pages/CategoryAdmin/CategoriesAdminnn
 import TagAdmin from "./pages/TagAdmin/TagAdmin";
 import EnhancedTagAdmin from "./pages/EnhancedTagAdmin/EnhancedTagAdmin";
 import EnhancedCategoryAdmin from "./pages/EnhancedCategoryAdmin/EnhancedCategoryAdmin";
