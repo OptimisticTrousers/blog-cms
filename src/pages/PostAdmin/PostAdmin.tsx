@@ -82,7 +82,7 @@ const PostAdmin: FC<PostAdminProps> = ({
   )?.name;
 
   const currentTags = tagsValue!.tags
-    .filter((tag) => post?.tags.includes(tag._id))
+    .filter((tag) => !post?.tags.includes(tag._id))
     .map((tag) => tag.name);
 
   const handleCreatePost = async (values: FormData) => {
