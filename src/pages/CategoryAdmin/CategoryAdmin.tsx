@@ -53,6 +53,7 @@ const CategoriesAdmin: FC<CategoryAdminProps> = ({
         placeholder="Category Title"
         sx={{ width: "100%", marginTop: "1rem" }}
         defaultValue={category && category.name}
+        name="name"
         required
       />
       <Button
