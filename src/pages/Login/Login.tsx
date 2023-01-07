@@ -1,4 +1,10 @@
-import React, { FormEvent, useEffect, useRef, useState } from "react";
+import React, {
+  FormEvent,
+  FormEventHandler,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import axios from "axios";
 import { apiDomain } from "../../utils";
 import useFetch from "../../hooks/useFetch";
@@ -17,48 +23,33 @@ import {
 import { useNavigate } from "react-router-dom";
 import { Loader } from "@mantine/core";
 import Error from "../../components/Error/Error";
+import { FetchUser } from "../../atoms";
 
 const Login = () => {
   const usernameRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
-  const [data, setData] = useState();
   const [show, setShow] = React.useState(false);
-  const handleClick = () => setShow(!show);
   const navigate = useNavigate();
 
-  const { loading, error, value } = useFetch(`${apiDomain()}/user`, {
+  const handleClick = () => setShow(!show);
+
+  const { loading, error, value }: FetchUser = useFetch(`${apiDomain()}/user`, {
     credentials: "include",
   });
 
-  if(loading) {
-    return <Loader size={"xl"} />
+  if (loading) {
+    return <Loader size={"xl"} />;
   }
 
-  if(error) {
-    return <Error error={error} />
+  if (error) {
+    return <Error error={error} />;
   }
 
-  useEffect(() => {
-    if(value && value.user) {
-      navigate("/")
-    }
-  }, [value]);
+  if (value && value["user"]) {
+    navigate("/");
+  }
 
-  // console.log(value)
-
-  // const getUser = async () => {
-  //   try {
-  //     const { data } = await axios.get(`${apiDomain()}/user`, {
-  //       withCredentials: true,
-  //     });
-  //     setData(data);
-  //     console.log(data);
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
-
-  const handleSubmit = async (event: any) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
       if (!usernameRef.current || !passwordRef.current) {
@@ -123,37 +114,37 @@ const Login = () => {
           </Text>
         </Box>
         <Box
-          as="form"
-          onSubmit={handleSubmit}
           backgroundColor={"white"}
           padding={"2rem"}
           boxShadow={"0px 0px 15px 5px rgba(0, 0, 0, 0.3)"}
           borderRadius={12}
         >
-          <FormLabel htmlFor="username">Username</FormLabel>
-          <Input
-            placeholder="Enter your username"
-            size="md"
-            mb={6}
-            ref={usernameRef}
-          />
-          <FormLabel htmlFor="password">Password</FormLabel>
-          <InputGroup size="md">
+          <form onSubmit={handleSubmit}>
+            <FormLabel htmlFor="username">Username</FormLabel>
             <Input
-              ref={passwordRef}
-              pr="4.5rem"
-              type={show ? "text" : "password"}
-              placeholder="Enter your password"
+              placeholder="Enter your username"
+              size="md"
+              mb={6}
+              ref={usernameRef}
             />
-            <InputRightElement width="4.5rem">
-              <Button h="1.75rem" size="sm" onClick={handleClick}>
-                {show ? "Hide" : "Show"}
-              </Button>
-            </InputRightElement>
-          </InputGroup>
-          <Button colorScheme="blue" type="submit" mt={6}>
-            Log In
-          </Button>
+            <FormLabel htmlFor="password">Password</FormLabel>
+            <InputGroup size="md">
+              <Input
+                ref={passwordRef}
+                pr="4.5rem"
+                type={show ? "text" : "password"}
+                placeholder="Enter your password"
+              />
+              <InputRightElement width="4.5rem">
+                <Button h="1.75rem" size="sm" onClick={handleClick}>
+                  {show ? "Hide" : "Show"}
+                </Button>
+              </InputRightElement>
+            </InputGroup>
+            <Button colorScheme="blue" type="submit" mt={6}>
+              Log In
+            </Button>
+          </form>
         </Box>
       </Container>
     </ChakraProvider>

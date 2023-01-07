@@ -6,13 +6,16 @@ import { apiDomain } from "./utils";
 import { Navigate } from "react-router-dom";
 import { Loader } from "@mantine/core";
 import Error from "./components/Error/Error";
+import { createContext } from "react";
+import { Auth, FetchUser, User } from "./atoms";
+
+export const AuthContext = createContext<Auth>({ user: null });
 
 const App = () => {
-  const { loading, error, value } = useFetch(`${apiDomain()}/user`, {
+  const { loading, error, value }: FetchUser = useFetch(`${apiDomain()}/user`, {
     credentials: "include",
   });
 
-  console.log(value)
   if (loading) {
     return <Loader size={"xl"} />;
   }
@@ -21,14 +24,14 @@ const App = () => {
     return <Error error={error} />;
   }
 
-  if (loading === false) {
-    return (
-      <>
-        <NavigationBar />
-        <main>{value.user ? <Outlet /> : <Navigate to="login" />}</main>
-      </>
-    );
-  }
+  const user: User | null = value!["user"];
+
+  return (
+    <AuthContext.Provider value={{ user }}>
+      <NavigationBar />
+      <main>{user ? <Outlet /> : <Navigate to="login" />}</main>
+    </AuthContext.Provider>
+  );
 };
 
 export default App;

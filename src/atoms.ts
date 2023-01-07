@@ -122,3 +122,25 @@ export interface UserPost {
   updatedAt: string;
   published: boolean;
 }
+
+export interface User {
+  _id: string;
+  username: string;
+  password: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface FetchUser {
+  loading: boolean | undefined;
+  error: string | undefined;
+  value:
+    | {
+        user: User | null;
+      }
+    | undefined;
+}
+
+export interface Auth {
+  user: User | null;
+}
