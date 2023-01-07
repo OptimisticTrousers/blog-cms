@@ -26,16 +26,21 @@ import Error from "../../components/Error/Error";
 import { FetchUser } from "../../atoms";
 
 const Login = () => {
+  const [show, setShow] = React.useState(false);
+  const handleClick = () => setShow((prevShow) => !prevShow);
   const usernameRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
-  const [show, setShow] = React.useState(false);
   const navigate = useNavigate();
-
-  const handleClick = () => setShow(!show);
 
   const { loading, error, value }: FetchUser = useFetch(`${apiDomain()}/user`, {
     credentials: "include",
   });
+
+  useEffect(() => {
+    if (value && value["user"]) {
+      navigate("/");
+    }
+  }, [value]);
 
   if (loading) {
     return <Loader size={"xl"} />;
@@ -43,10 +48,6 @@ const Login = () => {
 
   if (error) {
     return <Error error={error} />;
-  }
-
-  if (value && value["user"]) {
-    navigate("/");
   }
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {

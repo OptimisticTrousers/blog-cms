@@ -33,20 +33,14 @@ const NavigationBar = () => {
                 id={`offcanvasNavbarDropdown-expand-sm`}
                 className="nav-dropdown"
               >
-                <NavDropdown.Item>
-                  <Link to="/posts" className="text-link">
-                    All Posts
-                  </Link>
+                <NavDropdown.Item as={Link} to="/posts">
+                  All Posts
                 </NavDropdown.Item>
-                <NavDropdown.Item>
-                  <Link to="/categories" className="text-link">
-                    All Categories
-                  </Link>
+                <NavDropdown.Item as={Link} to="/categories">
+                  All Categories
                 </NavDropdown.Item>
-                <NavDropdown.Item>
-                  <Link to="/tags" className="text-link">
-                    All Tags
-                  </Link>
+                <NavDropdown.Item as={Link} to="/tags">
+                  All Tags
                 </NavDropdown.Item>
               </NavDropdown>
               <NavDropdown
@@ -54,20 +48,14 @@ const NavigationBar = () => {
                 id={`offcanvasNavbarDropdown-expand-sm`}
                 className="nav-dropdown"
               >
-                <NavDropdown.Item>
-                  <Link to="/posts/create" className="text-link">
-                    Create Post
-                  </Link>
+                <NavDropdown.Item as={Link} to="/posts/create">
+                  Create Post
                 </NavDropdown.Item>
-                <NavDropdown.Item>
-                  <Link to="/categories/create" className="text-link">
-                    Create Category
-                  </Link>
+                <NavDropdown.Item as={Link} to="/categories/create">
+                  Create Category
                 </NavDropdown.Item>
-                <NavDropdown.Item>
-                  <Link to="/tags/create" className="text-link">
-                    Create Tag
-                  </Link>
+                <NavDropdown.Item as={Link} to="/tags/create">
+                  Create Tag
                 </NavDropdown.Item>
               </NavDropdown>
             </Nav>
