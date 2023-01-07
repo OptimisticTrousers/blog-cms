@@ -15,6 +15,8 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
+import { Loader } from "@mantine/core";
+import Error from "../../components/Error/Error";
 
 const Login = () => {
   const usernameRef = useRef<HTMLInputElement | null>(null);
@@ -28,13 +30,18 @@ const Login = () => {
     credentials: "include",
   });
 
+  if(loading) {
+    return <Loader size={"xl"} />
+  }
+
+  if(error) {
+    return <Error error={error} />
+  }
+
   useEffect(() => {
-    setTimeout(() => {
-      if (value) {
-        alert("You are already authenticated!");
-        navigate("/");
-      }
-    }, 1000);
+    if(value && value.user) {
+      navigate("/")
+    }
   }, [value]);
 
   // console.log(value)
