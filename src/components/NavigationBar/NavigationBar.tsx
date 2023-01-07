@@ -1,3 +1,4 @@
+import axios from "axios";
 import { NavDropdown } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
@@ -5,13 +6,32 @@ import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Offcanvas from "react-bootstrap/Offcanvas";
-import { Link } from "react-router-dom";
+import { Link, redirect, useNavigate } from "react-router-dom";
+import { apiDomain } from "../../utils";
 
 const NavigationBar = () => {
+  const navigate = useNavigate();
+  const handleLogout = async () => {
+    try {
+      const { data } = await axios.post(
+        `${apiDomain()}/logout`,
+        {},
+        {
+          withCredentials: true,
+        }
+      );
+      navigate("/login");
+      console.log(data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <Navbar bg="light" expand="sm" className="mb-3">
       <Container fluid>
-        <Navbar.Brand href="/">Blog CMS</Navbar.Brand>
+        <Navbar.Brand as={Link} to="/">
+          Blog CMS
+        </Navbar.Brand>
         <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-sm`} />
         <Navbar.Offcanvas
           id={`offcanvasNavbar-expand-sm`}
@@ -25,9 +45,9 @@ const NavigationBar = () => {
           </Offcanvas.Header>
           <Offcanvas.Body>
             <Nav className="justify-content-end flex-grow-1 pe-3">
-              <Link to="/" className="text-link">
+              <Nav.Link as={Link} to="/" style={{ paddingLeft: "0.5rem" }}>
                 Home
-              </Link>
+              </Nav.Link>
               <NavDropdown
                 title="Lists"
                 id={`offcanvasNavbarDropdown-expand-sm`}
@@ -56,6 +76,9 @@ const NavigationBar = () => {
                 </NavDropdown.Item>
                 <NavDropdown.Item as={Link} to="/tags/create">
                   Create Tag
+                </NavDropdown.Item>
+                <NavDropdown.Item onClick={handleLogout}>
+                  Log Out
                 </NavDropdown.Item>
               </NavDropdown>
             </Nav>
