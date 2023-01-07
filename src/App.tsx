@@ -9,7 +9,7 @@ import Error from "./components/Error/Error";
 import { createContext } from "react";
 import { Auth, FetchUser, User } from "./atoms";
 
-export const AuthContext = createContext<Auth>({ user: null });
+export const AuthContext = createContext<Auth>({isAuthenticated: false});
 
 const App = () => {
   const { loading, error, value }: FetchUser = useFetch(`${apiDomain()}/user`, {
@@ -26,8 +26,14 @@ const App = () => {
 
   const user: User | null = value!["user"];
 
+  let isAuthenticated = false;
+
+  if (user) {
+    isAuthenticated = true;
+  }
+
   return (
-    <AuthContext.Provider value={{ user }}>
+    <AuthContext.Provider value={{ isAuthenticated }}>
       <NavigationBar />
       <main>{user ? <Outlet /> : <Navigate to="login" />}</main>
     </AuthContext.Provider>

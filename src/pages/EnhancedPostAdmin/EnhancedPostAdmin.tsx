@@ -1,6 +1,6 @@
 import { Loader } from "@mantine/core";
 import axios from "axios";
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent, useContext, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { FetchPost, PostAdminProps } from "../../atoms";
 import useFetch from "../../hooks/useFetch";
@@ -9,6 +9,7 @@ import { apiDomain } from "../../utils";
 import Error from "../../components/Error/Error";
 import DeleteModal from "../../components/DeleteModal/DeleteModal";
 import { Button } from "@mui/material";
+import { AuthContext } from "../../App";
 
 const withPostEditing = (
   WrappedComponent: FunctionComponent<PostAdminProps>
@@ -17,6 +18,7 @@ const withPostEditing = (
     const { postId } = useParams();
 
     const navigate = useNavigate();
+    const { isAuthenticated } = useContext(AuthContext);
 
     const [show, setShow] = useState(false);
 
@@ -35,6 +37,9 @@ const withPostEditing = (
     const post = value!.post;
 
     const handleEditPost = async (values: FormData) => {
+      if (!isAuthenticated) {
+        navigate("/login");
+      }
       try {
         const { data } = await axios.put(
           `${apiDomain()}/posts/${postId}`,
@@ -48,6 +53,9 @@ const withPostEditing = (
     };
 
     const handleDelete = async () => {
+      if (!isAuthenticated) {
+        navigate("/login");
+      }
       try {
         const { data } = await axios.delete(`${apiDomain()}/posts/${postId}`);
         console.log(data);

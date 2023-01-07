@@ -142,5 +142,5 @@ export interface FetchUser {
 }
 
 export interface Auth {
-  user: User | null;
+  isAuthenticated: boolean;
 }

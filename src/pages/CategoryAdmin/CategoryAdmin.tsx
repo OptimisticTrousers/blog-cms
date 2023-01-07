@@ -1,9 +1,10 @@
 import { Box, Button, Heading } from "@chakra-ui/react";
 import { TextField } from "@mui/joy";
 import axios from "axios";
-import { FC, FormEvent } from "react";
+import { FC, FormEvent, useContext } from "react";
 import { Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../App";
 import { UserCategory, CategoryAdminProps } from "../../atoms";
 import { apiDomain } from "../../utils";
 
@@ -13,8 +14,13 @@ const CategoriesAdmin: FC<CategoryAdminProps> = ({
   handleEditCategory,
 }) => {
   const navigate = useNavigate();
+  const { isAuthenticated } = useContext(AuthContext);
 
   const handleCreateCategory = async (values: UserCategory) => {
+    if(!isAuthenticated) {
+      navigate("/login")
+    }
+
     try {
       const {
         data: { category },

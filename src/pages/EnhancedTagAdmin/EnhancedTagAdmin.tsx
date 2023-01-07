@@ -1,7 +1,7 @@
 import { Grid, Heading, Stack } from "@chakra-ui/react";
 import { Loader } from "@mantine/core";
 import axios from "axios";
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent, useContext, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { FetchTag, Post, TagAdminProps, UserTag } from "../../atoms";
 import useFetch from "../../hooks/useFetch";
@@ -11,12 +11,14 @@ import Error from "../../components/Error/Error";
 import DeleteModal from "../../components/DeleteModal/DeleteModal";
 import PostCard from "../../components/PostCard/PostCard";
 import { Button } from "@mui/material";
+import { AuthContext } from "../../App";
 
 const withTagEditing = (WrappedComponent: FunctionComponent<TagAdminProps>) => {
   return () => {
     const { tagId } = useParams();
 
     const navigate = useNavigate();
+    const { isAuthenticated } = useContext(AuthContext);
 
     const [show, setShow] = useState(false);
 
@@ -37,6 +39,9 @@ const withTagEditing = (WrappedComponent: FunctionComponent<TagAdminProps>) => {
     const posts = value!.posts;
 
     const handleEditTag = async (values: UserTag) => {
+      if (!isAuthenticated) {
+        navigate("/login");
+      }
       try {
         const { data } = await axios.put(
           `${apiDomain()}/tags/${tagId}`,
@@ -50,6 +55,9 @@ const withTagEditing = (WrappedComponent: FunctionComponent<TagAdminProps>) => {
     };
 
     const handleDelete = async () => {
+      if (!isAuthenticated) {
+        navigate("/login");
+      }
       try {
         const { data } = await axios.delete(`${apiDomain()}/tags/${tagId}`);
         console.log(data);

@@ -1,4 +1,4 @@
-import { FC, useRef, FormEvent } from "react";
+import { FC, useRef, FormEvent, useContext } from "react";
 import {
   Box,
   Button,
@@ -26,6 +26,7 @@ import Error from "../../components/Error/Error";
 import axios from "axios";
 import { Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../App";
 
 const PostAdmin: FC<PostAdminProps> = ({
   post,
@@ -36,6 +37,7 @@ const PostAdmin: FC<PostAdminProps> = ({
   const editorRef = useRef<TinyMCEEditor | null>(null);
 
   const navigate = useNavigate();
+  const {isAuthenticated} = useContext(AuthContext);
 
   const {
     loading: categoriesLoading,
@@ -86,6 +88,9 @@ const PostAdmin: FC<PostAdminProps> = ({
     .map((tag) => tag.name);
 
   const handleCreatePost = async (values: FormData) => {
+    if(!isAuthenticated) {
+      navigate("/login")
+    }
     try {
       const {
         data: { post },

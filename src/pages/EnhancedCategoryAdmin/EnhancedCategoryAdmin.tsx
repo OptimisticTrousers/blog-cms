@@ -1,7 +1,7 @@
 import { Grid, Heading, Stack } from "@chakra-ui/react";
 import { Loader } from "@mantine/core";
 import axios from "axios";
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent, useContext, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   CategoryAdminProps,
@@ -16,6 +16,7 @@ import CategoryAdmin from "../CategoryAdmin/CategoryAdmin";
 import DeleteModal from "../../components/DeleteModal/DeleteModal";
 import PostCard from "../../components/PostCard/PostCard";
 import { Button } from "@mui/material";
+import { AuthContext } from "../../App";
 
 const withCategoryEditing = (
   WrappedComponent: FunctionComponent<CategoryAdminProps>
@@ -24,6 +25,7 @@ const withCategoryEditing = (
     const { categoryId } = useParams();
 
     const navigate = useNavigate();
+    const { isAuthenticated } = useContext(AuthContext);
 
     const [show, setShow] = useState(false);
 
@@ -43,6 +45,9 @@ const withCategoryEditing = (
     const posts = value!.posts;
 
     const handleEditCategory = async (values: UserCategory) => {
+      if (!isAuthenticated) {
+        navigate("/login");
+      }
       try {
         const { data } = await axios.put(
           `${apiDomain()}/categories/${categoryId}`,
@@ -56,6 +61,9 @@ const withCategoryEditing = (
     };
 
     const handleDelete = async () => {
+      if (!isAuthenticated) {
+        navigate("/login");
+      }
       try {
         const { data } = await axios.delete(
           `${apiDomain()}/categories/${categoryId}`

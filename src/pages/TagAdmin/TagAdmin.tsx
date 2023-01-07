@@ -1,12 +1,13 @@
 import { Box, Heading, Stack } from "@chakra-ui/react";
 import { TextField } from "@mui/joy";
 import axios from "axios";
-import { FC, FormEvent, ReactNode } from "react";
+import { FC, FormEvent, ReactNode, useContext } from "react";
 import { Tag, TagAdminProps, UserTag } from "../../atoms";
 import { apiDomain } from "../../utils";
 import { Button } from "@chakra-ui/react";
 import { Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../App";
 
 interface handleEditFn {
   (values: UserTag): Promise<void>;
@@ -19,8 +20,12 @@ interface Props {
 
 const TagAdmin: FC<TagAdminProps> = ({ tag, deleteButton, handleEditTag }) => {
   const navigate = useNavigate();
+  const {isAuthenticated} = useContext(AuthContext)
 
   const handleCreateTag = async (values: UserTag) => {
+    if(!isAuthenticated) {
+      navigate("/login")
+    }
     try {
       const {
         data: { tag },
