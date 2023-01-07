@@ -15,11 +15,13 @@ import CategoryAdmin from "./pages/CategoryAdmin/CategoryAdmin";
 import TagAdmin from "./pages/TagAdmin/TagAdmin";
 import EnhancedTagAdmin from "./pages/EnhancedTagAdmin/EnhancedTagAdmin";
 import EnhancedCategoryAdmin from "./pages/EnhancedCategoryAdmin/EnhancedCategoryAdmin";
+import Login from "./pages/Login/Login";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
+        <Route path="/login" element={<Login />} />
         <Route path="/" element={<App />}>
           <Route index element={<Home />} />
           <Route path="posts">

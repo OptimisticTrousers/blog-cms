@@ -5,6 +5,7 @@ import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Offcanvas from "react-bootstrap/Offcanvas";
+import { Link } from "react-router-dom";
 
 const NavigationBar = () => {
   return (
@@ -24,29 +25,49 @@ const NavigationBar = () => {
           </Offcanvas.Header>
           <Offcanvas.Body>
             <Nav className="justify-content-end flex-grow-1 pe-3">
-              <Nav.Link href="/">Home</Nav.Link>
+              <Link to="/" className="text-link">
+                Home
+              </Link>
               <NavDropdown
                 title="Lists"
                 id={`offcanvasNavbarDropdown-expand-sm`}
+                className="nav-dropdown"
               >
-                <NavDropdown.Item href="/posts">All Posts</NavDropdown.Item>
-                <NavDropdown.Item href="/categories">
-                  All Categories
+                <NavDropdown.Item>
+                  <Link to="/posts" className="text-link">
+                    All Posts
+                  </Link>
                 </NavDropdown.Item>
-                <NavDropdown.Item href="/tags">All Tags</NavDropdown.Item>
+                <NavDropdown.Item>
+                  <Link to="/categories" className="text-link">
+                    All Categories
+                  </Link>
+                </NavDropdown.Item>
+                <NavDropdown.Item>
+                  <Link to="/tags" className="text-link">
+                    All Tags
+                  </Link>
+                </NavDropdown.Item>
               </NavDropdown>
               <NavDropdown
                 title="Create"
                 id={`offcanvasNavbarDropdown-expand-sm`}
+                className="nav-dropdown"
               >
-                <NavDropdown.Item href="/posts/create">
-                  Create Post
+                <NavDropdown.Item>
+                  <Link to="/posts/create" className="text-link">
+                    Create Post
+                  </Link>
                 </NavDropdown.Item>
-                <NavDropdown.Item href="/categories/create">
-                  Create Category
+                <NavDropdown.Item>
+                  <Link to="/categories/create" className="text-link">
+                    Create Category
+                  </Link>
                 </NavDropdown.Item>
-                <NavDropdown.Item href="/tags/create">
-                  Create Tag
+                <NavDropdown.Item>
+                  <Link to="/tags/create" className="text-link">
+                    Create Tag
+                  </Link>
                 </NavDropdown.Item>
               </NavDropdown>
             </Nav>
