@@ -6,7 +6,7 @@ import Date from "../../components/Date/Date";
 import CSSModules from "react-css-modules";
 import styles from "./PostPreview.module.css";
 import { Loader } from "@mantine/core";
-import { apiDomain } from "../../utils";
+import { apiDomain, s3Domain } from "../../utils";
 import { FetchPost } from "../../atoms";
 import Error from "../../components/Error/Error";
 import { Image } from "@chakra-ui/react";
@@ -35,7 +35,7 @@ const PostPreview = () => {
       <figure styleName="preview__container">
         <Image
           styleName="preview__image"
-          src={`${apiDomain()}/images/${image.filename}`}
+          src={`${s3Domain()}/${image.originalname}`}
           boxSize="60%"
           objectFit={"contain"}
           alt={title}

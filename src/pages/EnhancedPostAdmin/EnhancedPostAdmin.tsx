@@ -46,7 +46,7 @@ const withPostEditing = (
           values
         );
         console.log(data);
-        navigate(`/posts/${data._id}`);
+        navigate(`/posts`);
       } catch (err) {
         console.log(err);
       }

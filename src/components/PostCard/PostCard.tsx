@@ -8,7 +8,7 @@ import parse from "html-react-parser";
 import optimistictrousers from "../../assets/images/optimistictrousers.jpg";
 import { Link } from "react-router-dom";
 import { Image } from "@chakra-ui/react";
-import { apiDomain } from "../../utils";
+import { apiDomain, s3Domain } from "../../utils";
 
 const PostCard: FC<Post> = ({
   _id,
@@ -30,7 +30,7 @@ const PostCard: FC<Post> = ({
       </p>
       {image ? (
         <Image
-          src={`${apiDomain()}/images/${image.filename}`}
+          src={`${s3Domain()}/${image.originalname}`}
           crossOrigin="anonymous"
           boxSize="300px"
           objectFit={"contain"}

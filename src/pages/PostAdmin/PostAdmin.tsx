@@ -20,7 +20,7 @@ import useFetch from "../../hooks/useFetch";
 import { Loader, MultiSelect, NativeSelect } from "@mantine/core";
 import { DatePicker } from "@mantine/dates";
 import { TextField } from "@mui/joy";
-import { apiDomain } from "../../utils";
+import { apiDomain, s3Domain } from "../../utils";
 import { FetchCategories, FetchTags, PostAdminProps } from "../../atoms";
 import Error from "../../components/Error/Error";
 import axios from "axios";
@@ -266,7 +266,7 @@ const PostAdmin: FC<PostAdminProps> = ({
             <Stack direction="row">
               {post?.image && (
                 <Image
-                  src={`${apiDomain()}/images/${post?.image.filename}`}
+                  src={`${s3Domain()}/${post?.image.originalname}`}
                   crossOrigin="anonymous"
                   boxSize="100%"
                   objectFit={"cover"}
