@@ -37,7 +37,7 @@ const PostAdmin: FC<PostAdminProps> = ({
   const editorRef = useRef<TinyMCEEditor | null>(null);
 
   const navigate = useNavigate();
-  const {isAuthenticated} = useContext(AuthContext);
+  const { isAuthenticated } = useContext(AuthContext);
 
   const {
     loading: categoriesLoading,
@@ -88,8 +88,8 @@ const PostAdmin: FC<PostAdminProps> = ({
     .map((tag) => tag.name);
 
   const handleCreatePost = async (values: FormData) => {
-    if(!isAuthenticated) {
-      navigate("/login")
+    if (!isAuthenticated) {
+      navigate("/login");
     }
     try {
       const {
@@ -102,6 +102,7 @@ const PostAdmin: FC<PostAdminProps> = ({
   };
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    console.log("locos");
     event.preventDefault();
 
     const titleElement = event.currentTarget.elements.namedItem(
@@ -283,7 +284,11 @@ const PostAdmin: FC<PostAdminProps> = ({
               >
                 Upload image*
               </Text>
-              <Form.Control type="file" name="image" required />
+              <Form.Control
+                type="file"
+                name="image"
+                required={handleEditPost ? false : true}
+              />
             </Stack>
             <Stack direction="row" marginTop={"1rem"}>
               <Text
