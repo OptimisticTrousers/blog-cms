@@ -245,7 +245,7 @@ const PostAdmin: FC<PostAdminProps> = ({
                 height: 500,
                 menubar: false,
                 plugins:
-                  "preview importcss tinydrive searchreplace autolink autosave save directionality visualblocks visualchars fullscreen image link media template codesample table charmap pagebreak nonbreaking anchor insertdatetime advlist lists wordcount help charmap quickbars emoticons",
+                  "preview importcss searchreplace autolink autosave save directionality visualblocks visualchars fullscreen image link media template codesample table charmap pagebreak nonbreaking anchor insertdatetime advlist lists wordcount help charmap quickbars emoticons",
 
                 toolbar:
                   "undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist checklist | forecolor backcolor casechange permanentpen formatpainter removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media pageembed template link anchor codesample | a11ycheck ltr rtl | showcomments addcomment",
@@ -287,11 +287,7 @@ const PostAdmin: FC<PostAdminProps> = ({
               >
                 Upload image*
               </Text>
-              <Form.Control
-                type="file"
-                name="image"
-                required={handleEditPost ? false : true}
-              />
+              <Form.Control type="file" name="image" />
             </Stack>
             <Stack direction="row" marginTop={"1rem"}>
               <Text
@@ -302,11 +298,7 @@ const PostAdmin: FC<PostAdminProps> = ({
               >
                 Caption
               </Text>
-              <Form.Control
-                name="caption"
-                defaultValue={post?.caption}
-                required
-              />
+              <Form.Control name="caption" defaultValue={post?.caption} />
             </Stack>
           </Box>
         </GridItem>
