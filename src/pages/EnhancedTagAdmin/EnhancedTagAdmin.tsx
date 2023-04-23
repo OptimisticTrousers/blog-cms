@@ -6,7 +6,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { FetchTag, Post, TagAdminProps, UserTag } from "../../atoms";
 import useFetch from "../../hooks/useFetch";
 import TagAdmin from "../TagAdmin/TagAdmin";
-import { apiDomain } from "../../utils";
 import Error from "../../components/Error/Error";
 import DeleteModal from "../../components/DeleteModal/DeleteModal";
 import PostCard from "../../components/PostCard/PostCard";
@@ -23,7 +22,7 @@ const withTagEditing = (WrappedComponent: FunctionComponent<TagAdminProps>) => {
     const [show, setShow] = useState(false);
 
     const { loading, error, value }: FetchTag = useFetch(
-      `${apiDomain()}/tags/${tagId}`
+      `${import.meta.env.VITE_API_DOMAIN}/tags/${tagId}`
     );
 
     if (loading) {
@@ -44,7 +43,7 @@ const withTagEditing = (WrappedComponent: FunctionComponent<TagAdminProps>) => {
       }
       try {
         const { data } = await axios.put(
-          `${apiDomain()}/tags/${tagId}`,
+          `${import.meta.env.VITE_API_DOMAIN}/tags/${tagId}`,
           values
         );
         console.log(data);
@@ -59,7 +58,9 @@ const withTagEditing = (WrappedComponent: FunctionComponent<TagAdminProps>) => {
         navigate("/login");
       }
       try {
-        const { data } = await axios.delete(`${apiDomain()}/tags/${tagId}`);
+        const { data } = await axios.delete(
+          `${import.meta.env.VITE_API_DOMAIN}/tags/${tagId}`
+        );
         console.log(data);
         navigate("/tags");
       } catch (err) {

@@ -20,7 +20,6 @@ import useFetch from "../../hooks/useFetch";
 import { Loader, MultiSelect, NativeSelect } from "@mantine/core";
 import { DatePicker } from "@mantine/dates";
 import { TextField } from "@mui/joy";
-import { apiDomain, s3Domain } from "../../utils";
 import { FetchCategories, FetchTags, PostAdminProps } from "../../atoms";
 import Error from "../../components/Error/Error";
 import axios from "axios";
@@ -43,13 +42,15 @@ const PostAdmin: FC<PostAdminProps> = ({
     loading: categoriesLoading,
     error: categoriesError,
     value: categoriesValue,
-  }: FetchCategories = useFetch(`${apiDomain()}/categories`);
+  }: FetchCategories = useFetch(
+    `${import.meta.env.VITE_API_DOMAIN}/categories`
+  );
 
   const {
     loading: tagsLoading,
     error: tagsError,
     value: tagsValue,
-  }: FetchTags = useFetch(`${apiDomain()}/tags`);
+  }: FetchTags = useFetch(`${import.meta.env.VITE_API_DOMAIN}/tags`);
 
   if (categoriesLoading || tagsLoading) {
     return <Loader size={"xl"} />;
@@ -94,7 +95,7 @@ const PostAdmin: FC<PostAdminProps> = ({
     try {
       const {
         data: { post },
-      } = await axios.post(`${apiDomain()}/posts`, values);
+      } = await axios.post(`${import.meta.env.VITE_API_DOMAIN}/posts`, values);
       navigate(`/posts/${post._id}`);
     } catch (err) {
       console.log(err);
@@ -267,7 +268,9 @@ const PostAdmin: FC<PostAdminProps> = ({
             <Stack direction="row">
               {post?.image && (
                 <Image
-                  src={`${s3Domain()}/${post?.image.originalname}`}
+                  src={`${import.meta.env.VITE_S3_BUCKET}/${
+                    post?.image.originalname
+                  }`}
                   crossOrigin="anonymous"
                   boxSize="100%"
                   objectFit={"cover"}

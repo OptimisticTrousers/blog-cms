@@ -4,10 +4,11 @@ import { FetchTags, Tag } from "../../atoms";
 import Card from "../../components/Card/Card";
 import Error from "../../components/Error/Error";
 import useFetch from "../../hooks/useFetch";
-import { apiDomain } from "../../utils";
 
 const Tags = () => {
-  const { loading, error, value }: FetchTags = useFetch(`${apiDomain()}/tags`);
+  const { loading, error, value }: FetchTags = useFetch(
+    `${import.meta.env.VITE_API_DOMAIN}/tags`
+  );
 
   if (loading) {
     return <Loader size={"xl"} />;

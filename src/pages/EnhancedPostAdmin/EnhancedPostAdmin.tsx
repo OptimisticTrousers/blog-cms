@@ -5,7 +5,6 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { FetchPost, PostAdminProps } from "../../atoms";
 import useFetch from "../../hooks/useFetch";
 import PostAdmin from "../../pages/PostAdmin/PostAdmin";
-import { apiDomain } from "../../utils";
 import Error from "../../components/Error/Error";
 import DeleteModal from "../../components/DeleteModal/DeleteModal";
 import { Button } from "@mui/material";
@@ -23,7 +22,7 @@ const withPostEditing = (
     const [show, setShow] = useState(false);
 
     const { loading, error, value }: FetchPost = useFetch(
-      `${apiDomain()}/posts/${postId}`
+      `${import.meta.env.VITE_API_DOMAIN}/posts/${postId}`
     );
 
     if (loading) {
@@ -42,7 +41,7 @@ const withPostEditing = (
       }
       try {
         const { data } = await axios.put(
-          `${apiDomain()}/posts/${postId}`,
+          `${import.meta.env.VITE_API_DOMAIN}/posts/${postId}`,
           values
         );
         console.log(data);
@@ -57,7 +56,9 @@ const withPostEditing = (
         navigate("/login");
       }
       try {
-        const { data } = await axios.delete(`${apiDomain()}/posts/${postId}`);
+        const { data } = await axios.delete(
+          `${import.meta.env.VITE_API_DOMAIN}/posts/${postId}`
+        );
         console.log(data);
         navigate("/posts");
       } catch (err) {

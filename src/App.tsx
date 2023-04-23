@@ -2,19 +2,21 @@ import "./App.css";
 import NavigationBar from "./components/NavigationBar/NavigationBar";
 import { Outlet, useNavigate } from "react-router-dom";
 import useFetch from "./hooks/useFetch";
-import { apiDomain } from "./utils";
 import { Navigate } from "react-router-dom";
 import { Loader } from "@mantine/core";
 import Error from "./components/Error/Error";
 import { createContext } from "react";
 import { Auth, FetchUser, User } from "./atoms";
 
-export const AuthContext = createContext<Auth>({isAuthenticated: false});
+export const AuthContext = createContext<Auth>({ isAuthenticated: false });
 
 const App = () => {
-  const { loading, error, value }: FetchUser = useFetch(`${apiDomain()}/user`, {
-    credentials: "include",
-  });
+  const { loading, error, value }: FetchUser = useFetch(
+    `${import.meta.env.VITE_API_DOMAIN}/user`,
+    {
+      credentials: "include",
+    }
+  );
 
   if (loading) {
     return <Loader size={"xl"} />;

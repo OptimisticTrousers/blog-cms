@@ -4,13 +4,12 @@ import { FetchPosts, Post } from "../../atoms";
 import CSSModules from "react-css-modules";
 import styles from "./Posts.module.css";
 import { Loader } from "@mantine/core";
-import { apiDomain } from "../../utils";
 import Error from "../../components/Error/Error";
 import { Heading } from "@chakra-ui/react";
 
 const Posts = () => {
   const { loading, error, value }: FetchPosts = useFetch(
-    `${apiDomain()}/posts`
+    `${import.meta.env.VITE_API_DOMAIN}/posts`
   );
 
   if (loading) {

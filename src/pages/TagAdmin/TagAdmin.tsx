@@ -3,7 +3,6 @@ import { TextField } from "@mui/joy";
 import axios from "axios";
 import { FC, FormEvent, ReactNode, useContext } from "react";
 import { Tag, TagAdminProps, UserTag } from "../../atoms";
-import { apiDomain } from "../../utils";
 import { Button } from "@chakra-ui/react";
 import { Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
@@ -20,16 +19,16 @@ interface Props {
 
 const TagAdmin: FC<TagAdminProps> = ({ tag, deleteButton, handleEditTag }) => {
   const navigate = useNavigate();
-  const {isAuthenticated} = useContext(AuthContext)
+  const { isAuthenticated } = useContext(AuthContext);
 
   const handleCreateTag = async (values: UserTag) => {
-    if(!isAuthenticated) {
-      navigate("/login")
+    if (!isAuthenticated) {
+      navigate("/login");
     }
     try {
       const {
         data: { tag },
-      } = await axios.post(`${apiDomain()}/tags`, values);
+      } = await axios.post(`${import.meta.env.VITE_API_DOMAIN}/tags`, values);
       navigate(`/tags/${tag._id.toString()}`);
     } catch (err) {
       console.log(err);

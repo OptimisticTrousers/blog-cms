@@ -6,7 +6,6 @@ import { Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../App";
 import { UserCategory, CategoryAdminProps } from "../../atoms";
-import { apiDomain } from "../../utils";
 
 const CategoriesAdmin: FC<CategoryAdminProps> = ({
   category,
@@ -17,14 +16,17 @@ const CategoriesAdmin: FC<CategoryAdminProps> = ({
   const { isAuthenticated } = useContext(AuthContext);
 
   const handleCreateCategory = async (values: UserCategory) => {
-    if(!isAuthenticated) {
-      navigate("/login")
+    if (!isAuthenticated) {
+      navigate("/login");
     }
 
     try {
       const {
         data: { category },
-      } = await axios.post(`${apiDomain()}/categories`, values);
+      } = await axios.post(
+        `${import.meta.env.VITE_API_DOMAIN}/categories`,
+        values
+      );
       navigate(`/categories/${category._id}`);
     } catch (err) {
       console.log(err);

@@ -4,11 +4,10 @@ import { Category, FetchCategories } from "../../atoms";
 import CategoryCard from "../../components/Card/Card";
 import Error from "../../components/Error/Error";
 import useFetch from "../../hooks/useFetch";
-import { apiDomain } from "../../utils";
 
 const Categories = () => {
   const { loading, error, value }: FetchCategories = useFetch(
-    `${apiDomain()}/categories`
+    `${import.meta.env.VITE_API_DOMAIN}/categories`
   );
 
   if (loading) {

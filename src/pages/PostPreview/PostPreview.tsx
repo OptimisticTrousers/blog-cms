@@ -6,7 +6,6 @@ import Date from "../../components/Date/Date";
 import CSSModules from "react-css-modules";
 import styles from "./PostPreview.module.css";
 import { Loader } from "@mantine/core";
-import { apiDomain, s3Domain } from "../../utils";
 import { FetchPost } from "../../atoms";
 import Error from "../../components/Error/Error";
 import { Image } from "@chakra-ui/react";
@@ -15,7 +14,7 @@ const PostPreview = () => {
   const { postId } = useParams();
 
   const { loading, error, value }: FetchPost = useFetch(
-    `${apiDomain()}/posts/${postId}`
+    `${import.meta.env.VITE_API_DOMAIN}/posts/${postId}`
   );
 
   if (loading) {
@@ -35,7 +34,7 @@ const PostPreview = () => {
       <figure styleName="preview__container">
         <Image
           styleName="preview__image"
-          src={`${s3Domain()}/${image.originalname}`}
+          src={`${import.meta.env.VITE_S3_BUCKET}/${image.originalname}`}
           boxSize="60%"
           objectFit={"contain"}
           alt={title}

@@ -10,7 +10,6 @@ import {
   UserCategory,
 } from "../../atoms";
 import useFetch from "../../hooks/useFetch";
-import { apiDomain } from "../../utils";
 import Error from "../../components/Error/Error";
 import CategoryAdmin from "../CategoryAdmin/CategoryAdmin";
 import DeleteModal from "../../components/DeleteModal/DeleteModal";
@@ -30,7 +29,7 @@ const withCategoryEditing = (
     const [show, setShow] = useState(false);
 
     const { loading, error, value }: FetchCategory = useFetch(
-      `${apiDomain()}/categories/${categoryId}`
+      `${import.meta.env.VITE_API_DOMAIN}/categories/${categoryId}`
     );
 
     if (loading) {
@@ -50,7 +49,7 @@ const withCategoryEditing = (
       }
       try {
         const { data } = await axios.put(
-          `${apiDomain()}/categories/${categoryId}`,
+          `${import.meta.env.VITE_API_DOMAIN}/categories/${categoryId}`,
           values
         );
         console.log(data);
@@ -66,7 +65,7 @@ const withCategoryEditing = (
       }
       try {
         const { data } = await axios.delete(
-          `${apiDomain()}/categories/${categoryId}`
+          `${import.meta.env.VITE_API_DOMAIN}/categories/${categoryId}`
         );
         console.log(data);
         navigate("/categories");

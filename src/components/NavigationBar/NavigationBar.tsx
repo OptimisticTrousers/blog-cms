@@ -7,14 +7,13 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import { Link, redirect, useNavigate } from "react-router-dom";
-import { apiDomain } from "../../utils";
 
 const NavigationBar = () => {
   const navigate = useNavigate();
   const handleLogout = async () => {
     try {
       const { data } = await axios.post(
-        `${apiDomain()}/logout`,
+        `${import.meta.env.VITE_API_DOMAIN}/logout`,
         {},
         {
           withCredentials: true,

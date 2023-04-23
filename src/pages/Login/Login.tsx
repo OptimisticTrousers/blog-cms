@@ -6,7 +6,6 @@ import React, {
   useState,
 } from "react";
 import axios from "axios";
-import { apiDomain } from "../../utils";
 import useFetch from "../../hooks/useFetch";
 import {
   FormControl,
@@ -32,9 +31,12 @@ const Login = () => {
   const passwordRef = useRef<HTMLInputElement | null>(null);
   const navigate = useNavigate();
 
-  const { loading, error, value }: FetchUser = useFetch(`${apiDomain()}/user`, {
-    credentials: "include",
-  });
+  const { loading, error, value }: FetchUser = useFetch(
+    `${import.meta.env.VITE_API_DOMAIN}/user`,
+    {
+      credentials: "include",
+    }
+  );
 
   useEffect(() => {
     if (value && value["user"]) {
@@ -63,9 +65,13 @@ const Login = () => {
         password: passwordRef.current.value,
       };
 
-      const { data } = await axios.post(`${apiDomain()}/login`, user, {
-        withCredentials: true,
-      });
+      const { data } = await axios.post(
+        `${import.meta.env.VITE_API_DOMAIN}/login`,
+        user,
+        {
+          withCredentials: true,
+        }
+      );
       if (data === "Successfully Authenticated") {
         navigate("/");
       } else {
