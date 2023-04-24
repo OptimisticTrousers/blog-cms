@@ -9,6 +9,9 @@ import { Loader } from "@mantine/core";
 import { FetchPost } from "../../atoms";
 import Error from "../../components/Error/Error";
 import { Image } from "@chakra-ui/react";
+import { useEffect } from "react";
+import Prism from "prismjs";
+import "prismjs/themes/prism-okaidia.css";
 
 const PostPreview = () => {
   const { postId } = useParams();
@@ -16,6 +19,10 @@ const PostPreview = () => {
   const { loading, error, value }: FetchPost = useFetch(
     `${import.meta.env.VITE_API_DOMAIN}/posts/${postId}`
   );
+
+  useEffect(() => {
+    Prism.highlightAll();
+  }, [value]);
 
   if (loading) {
     return <Loader size={"xl"} />;
@@ -32,13 +39,15 @@ const PostPreview = () => {
     <article styleName="preview">
       <h2 styleName="preview__title">{title}</h2>
       <figure styleName="preview__container">
-        <Image
-          styleName="preview__image"
-          src={`${import.meta.env.VITE_S3_BUCKET}/${image.originalname}`}
-          boxSize="60%"
-          objectFit={"contain"}
-          alt={title}
-        />
+        {image && (
+          <Image
+            styleName="preview__image"
+            src={`${import.meta.env.VITE_S3_BUCKET}/${image?.originalname}`}
+            boxSize="60%"
+            objectFit={"contain"}
+            alt={title}
+          />
+        )}
         <figcaption styleName="preview__caption">{caption}</figcaption>
       </figure>
       <hr />

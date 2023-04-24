@@ -28,7 +28,7 @@
   transition: all 0.2s ease-in-out;
 }
 
-.preview__description {
+.preview__description p {
   font-size: 1.5rem;
   margin-bottom: 1.3em;
   line-height: 1.5;
