@@ -23,6 +23,7 @@ Beyond that, other learning outcomes were:
 3. Allows me to publish and unpublish blog posts
 4. Uses the TinyMCE RichText Editor
 
+- [Blog API](https://github.com/OptimisticTrousers/blog-api) - Express.js based API
 
 ## Development
 
