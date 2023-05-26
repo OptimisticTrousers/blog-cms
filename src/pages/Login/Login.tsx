@@ -45,7 +45,19 @@ const Login = () => {
   }, [value]);
 
   if (loading) {
-    return <Loader size={"xl"} />;
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          width: "100%",
+          height: "100%",
+        }}
+      >
+        <Loader size={"xl"} />
+      </div>
+    );
   }
 
   if (error) {

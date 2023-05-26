@@ -4,8 +4,6 @@
 }
 
 .card {
-  border: 1px solid gray;
-  box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.7);
   position: relative;
   font-family: "Helvetica";
   display: flex;
@@ -13,12 +11,14 @@
   align-items: center;
   padding: 2rem;
   border-radius: 8px;
-  background-color: #375af2;
-  color: white;
+  color: black;
   cursor: pointer;
-  box-shadow: 20px 10px 20px 0 rgba(0, 0, 0, 0.25);
+  box-shadow: 0px 2px 9px 0 rgba(0, 0, 0, 0.25);
   transition: all 0.2s ease-in-out;
   margin-top: 1rem;
+  background-color: white;
+  padding: 1rem;
+  border-radius: 12px;
 }
 
 .card__image {
@@ -54,16 +54,19 @@
   left: 32px;
   padding: 0.5rem 1.5rem;
   color: white;
-  border-radius: 50px;
+  border-radius: 8px;
   font-size: 2rem;
+  box-shadow: 0px 2px 9px 0 rgba(0, 0, 0, 0.25);
+  border: 2px solid #cad8dc;
 }
 
 .card__status--published {
-  background-color: #768cec;
+  background-color: white;
+  color: black;
 }
 
 .card__status--unpublished {
-  background-color: #cad8dc;
+  color: #0081fe;
 }
 
 .card__date {
