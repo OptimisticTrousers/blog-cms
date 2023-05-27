@@ -7,6 +7,7 @@ import { Loader } from "@mantine/core";
 import Error from "./components/Error/Error";
 import { createContext } from "react";
 import { Auth, FetchUser, User } from "./atoms";
+import LoadingScreen from "./pages/LoadingScreen";
 
 export const AuthContext = createContext<Auth>({ isAuthenticated: false });
 
@@ -36,6 +37,7 @@ const App = () => {
 
   return (
     <AuthContext.Provider value={{ isAuthenticated }}>
+      <LoadingScreen />
       <NavigationBar />
       <main>{user ? <Outlet /> : <Navigate to="login" />}</main>
     </AuthContext.Provider>
