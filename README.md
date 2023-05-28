@@ -16,6 +16,11 @@ Beyond that, other learning outcomes were:
 - Using TypeScript with Express
 - Dealing with CORS issues
 
+## Showcase
+
+[blog-cms.webm](https://github.com/OptimisticTrousers/blog-cms/assets/36343664/8904546c-9bf9-48f9-849f-dab5c5b72ccf)
+
+
 ## Features
 
 1. Allows me to perform CRUD operations on posts, categories, and tags
