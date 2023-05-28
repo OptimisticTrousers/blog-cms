@@ -4,7 +4,7 @@
 
 [App] Creating my own content management system for the blog on my personal website
 
-> See it live soon...
+> See it live on https://optimistic-blog-cms.netlify.app
 > Or clone repo, cd into repo, then run "npm run dev"
 
 ## Purpose
