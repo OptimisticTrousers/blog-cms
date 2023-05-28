@@ -49,7 +49,6 @@ Beyond that, other learning outcomes were:
 
 ## Areas for Improvement
 
-* [ ] Add JWT authentication to authenticate myself
 * [ ] Add functionality to the search bar to search for posts, categories, and/or tags
 
 ## Known Bugs
